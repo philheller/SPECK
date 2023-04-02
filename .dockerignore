@@ -13,6 +13,7 @@ node_modules
 *.swp
 *.pyc
 .DS_Store
+.next
 
 # Ignore editor-specific files
 .vscode

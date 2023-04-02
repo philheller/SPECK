@@ -15,4 +15,7 @@ COPY truffle-suite/scripts/docker-entrypoint.sh /usr/local/bin/
 RUN chmod 775 /usr/local/bin/docker-entrypoint.sh
 EXPOSE 3000
 
+# if automatic start of frontend is desired, (un-)comment the following line
+# CMD [ "npm", "run", "dev" ]
+
 ENTRYPOINT [ "docker-entrypoint.sh" ]

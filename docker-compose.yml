@@ -22,6 +22,8 @@ services:
     volumes:
       - app-dir:/opt/node_app/app
       - client-dir:/opt/node_app/app/client:ro
+      # for next and caching:
+      - /opt/node_app/app/client/.next
       - /opt/node_app/app/client/node_modules
     stdin_open: true # docker run -i
     tty: true # docker run -t
