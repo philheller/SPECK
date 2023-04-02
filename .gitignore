@@ -1,0 +1,62 @@
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Compiled files and binaries
+*.class
+*.jar
+*.war
+*.ear
+*.dll
+*.exe
+*.so
+*.ko
+
+# Package and dependency files
+node_modules/
+bower_components/
+jspm_packages/
+composer.phar
+vendor/
+
+# Build files and temporary files
+build/
+dist/
+tmp/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+log/
+
+# Text editor and IDE backup files
+*.swp
+*~
+*.bak
+
+# System files
+.DS_Store
+Desktop.ini
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# Miscellaneous files
+*.cache
+*.bak
+*.pyc
+*.csv
+*.env
+*.out
+*.zip
+*.gz
+*.env.*
+.env
+# include example env
+!example.env
+
+# Ignore specific directories
+dir_to_ignore/
+dir_to_ignore2/
