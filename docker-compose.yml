@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # start the ganache cli container
@@ -16,7 +16,6 @@ services:
       context: .
       dockerfile: truffle-suite/Dockerfile
     working_dir: /opt/node_app/client
-    environment:
     # if developing next locally, comment out the entrypoint
     # to increase the speed of hot reloading, commment out wepback in ./client/next.config.js
     entrypoint: npm run dev
