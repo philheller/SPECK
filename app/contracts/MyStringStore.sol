@@ -1,4 +1,5 @@
-pragma solidity 0.8.3;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.18;
 
 contract MyStringStore {
     event StringSet(string _message);

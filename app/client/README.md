@@ -1,38 +1,8 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). To see how the recommended way to develop on this server works, see the [README](../../README.md) in the root directory.
 
 ## Getting Started
 
-### Run locally
-
-If you run the frontend locally, you can edit the `next.config.js` file and comment out the "webpack"-key:
-
-```js
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  // webpack: (config, context) => {
-  //   config.watchOptions = {
-  //     poll: 1000,
-  //     aggregateTimeout: 300,
-  //   };
-  //   return config;
-  // },
-};
-
-module.exports = nextConfig;
-```
-
-This will make hot-module-reloading way faster. However, for running nextjs in docker polling and therefore this config is needed.
-
-### Run with docker
-
-Enter the container with:
-
-```bash
-    docker exec -it <container-name> bash
-```
-
-Then, run the development server:
+First, run the development server:
 
 ```bash
 npm run dev

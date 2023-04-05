@@ -1,4 +1,5 @@
 # Ignore files and directories related to version control
+.git*
 .git
 .gitignore
 .svn
