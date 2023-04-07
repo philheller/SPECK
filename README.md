@@ -89,7 +89,7 @@ After cloning the repository and changing to the `speck-hackathon/` (see [First 
 2. To interact with truffle, start a bash session in the truffle suite container
 
    ```bash
-   docker exec -it truffle_suite bash
+   docker exec -it truffle-suite bash
    ```
 
    Now, a bash instance is running in the container. Here, you can run any of the truffle commands like a migration:
@@ -196,7 +196,7 @@ After cloning the repository and changing to the `speck-hackathon/` (see [First 
    },
    ```
 
-2. Starting the development server in the `truffle_suite` is no longer necessary. To deactivate it, comment out the entrypoint of the `truffle_suite` in the [`docker-compose.yml`](./docker-compose.yml) file as shown below.
+2. Starting the development server in the `truffle-suite` is no longer necessary. To deactivate it, comment out the entrypoint of the `truffle-suite` in the [`docker-compose.yml`](./docker-compose.yml) file as shown below.
 
    ```yml
    # ...

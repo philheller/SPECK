@@ -10,8 +10,8 @@ services:
       dockerfile: ganache-cli/Dockerfile
     ports:
       - 8545:8545
-  truffle_suite:
-    container_name: truffle_suite
+  truffle-suite:
+    container_name: truffle-suite
     build:
       context: .
       dockerfile: truffle-suite/Dockerfile
