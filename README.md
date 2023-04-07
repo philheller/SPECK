@@ -130,7 +130,7 @@ None, if prerequisites are met.
 
 #### Configuration
 
-1. Open [`app/truffle-config.js`](./app/truffle-config.js) and change `networks` > `development` > `host` to `"127.0.0.1"` (toggle comment for provided options), since we are not using Docker.
+1. Open [`app/truffle-config.js`](./app/truffle-config.js) and change `networks` > `development` > `host` to `"host.docker.internal"` (toggle comment for provided options), since we are not using Docker. Make sure the port set next to the host matches the one configured in Ganache.
 
 2. Open Ganache and create a new workspace; thereby, add your Truffle project to Ganache by selecting the [`truffle-config.js`](./app/truffle-config.js). Don't forget to save your workspace!
 
