@@ -26,8 +26,6 @@ services:
       # for next and caching:
       - /opt/node_app/client/.next
       - /opt/node_app/client/node_modules
-    depends_on:
-      - ganache-cli
     stdin_open: true # docker run -i
     tty: true # docker run -t
 volumes:
