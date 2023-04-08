@@ -3,8 +3,11 @@ import DefaultPaddingXnY from "@/components/layout/DefaultPaddingXnY";
 const index = () => {
   return (
     <DefaultPaddingXnY>
-      <h2>Page 1</h2>
-      <h3>Information about page 1</h3>
+      <h2>Use contract</h2>
+      <h3>Demo of wagmi & useContract</h3>
+      <div className="px-2 py-1 text-gray-100 bg-red-800 rounded my-3 inline-block">
+        TODO
+      </div>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur
         laborum ad alias sint! Architecto minus ullam esse eum repudiandae! Non

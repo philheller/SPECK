@@ -13,14 +13,14 @@ const Nav = ({ className }: { className?: string }) => {
             <Link href="/">
               <li>Home</li>
             </Link>
-            <Link href="/page-1">
-              <li>Page 1</li>
+            <Link href="/connect">
+              <li>Connect Wallet</li>
             </Link>
-            <Link href="/page-2">
-              <li>Page 2</li>
+            <Link href="/read-from-contract">
+              <li>Read from Contract</li>
             </Link>
-            <Link href="/page-3">
-              <li>Page 3</li>
+            <Link href="/use-contract">
+              <li>Use Contract function</li>
             </Link>
           </ul>
         </nav>

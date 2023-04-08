@@ -133,21 +133,18 @@ None, if prerequisites are met.
 1. Open [`app/truffle-config.js`](./app/truffle-config.js) and change `networks` > `development` > `host` to `"host.docker.internal"` (toggle comment for provided options), since we are not using Docker. Make sure the port set next to the host matches the one configured in Ganache.
 
 2. Open Ganache and create a new workspace; thereby, add your Truffle project to Ganache by selecting the [`truffle-config.js`](./app/truffle-config.js). Don't forget to save your workspace!
+   If you want the local Ganache instance to mirror the configuration of the dockerized Ganache instance you need to watch out for the following values:
+   **Server** (see [`truffle-config.js`](./app/truffle-config.js)):
 
-3. Configure the MetaMask browser plugin. Therefore, add your local Blockchain to MetaMask as custom network. The URL is displayed in Ganache. The default should be [`http://127.0.0.1:7545`](http://127.0.0.1:7545). Give the network a name and specify `0x539`as chain ID. Then, import an Ethereum account from Ganach to your MetaMask wallet. This is done by importing the corresponding private key. You can find all private keys in the account tab of Ganache when you click on the key symbol positioned on the right of each row. After visiting a site that supports MetaMask, you need to specify which account you want to use, by connecting the account to the site.
-   If MetaMask is not present, the application will directly connect to Ganache. This is due to the definition of a fallback in [`app/client/src/drizzleOptions.js`](./app/client/src/drizzleOptions.js)
+   - RPC URL: `http://127.0.0.1`
+   - Port: `8545`
+   - Network ID: `1337`
 
-   ```js
-   const options = {
-     // ...
-     web3: {
-       fallback: {
-         type: "ws",
-         url: "ws://127.0.0.1:7545",
-       },
-     },
-   };
-   ```
+   **Accounts & Keys**:
+
+   - Mnemonic (see [`ganache-cli/Dockerfile`](./ganache-cli/Dockerfile))
+
+3. Configure the MetaMask browser plugin. Therefore, add your local Blockchain to MetaMask as custom network. The URL is displayed in Ganache. The default should be [`http://127.0.0.1:7545`](http://127.0.0.1:7545) (as mentioned above, if you want to mirror the dockerized version, use `8545` as port). Give the network a name and specify `1337` as chain ID. Then, import an Ethereum account from Ganach to your MetaMask wallet. This is done by importing the corresponding private key. You can find all private keys in the account tab of Ganache when you click on the key symbol positioned on the right of each row. After visiting a site that supports MetaMask, you need to specify which account you want to use, by connecting the account to the site.
 
 4. [Optional] The container for the `ganache-cli` can be deactivated. By commenting it out in the [`docker-compose.yml`](./docker-compose.yml) file. This will spin up the containers faster.
 
@@ -247,6 +244,16 @@ npm install -g truffle
 1. Open [`app/truffle-config.js`](./app/truffle-config.js) and change `networks` > `development` > `host` to `"127.0.0.1"` (toggle comment for provided options), since we are not using Docker.
 
 2. Open Ganache and create a new workspace; thereby, add your Truffle project to Ganache by selecting the [`truffle-config.js`](./app/truffle-config.js). Don't forget to save your workspace!
+   If you want the local Ganache instance to mirror the configuration of the dockerized Ganache instance you need to watch out for the following values:
+   **Server** (see [`truffle-config.js`](./app/truffle-config.js)):
+
+   - RPC URL: `http://127.0.0.1`
+   - Port: `8545`
+   - Network ID: `1337`
+
+   **Accounts & Keys**:
+
+   - Mnemonic (see [`ganache-cli/Dockerfile`](./ganache-cli/Dockerfile))
 
 3. Compile and migrate your contracts to your local Ganache Blockchain
 
@@ -255,20 +262,7 @@ npm install -g truffle
    truffle migrate
    ```
 
-4. Configure the MetaMask browser plugin. Therefore, add your local Blockchain to MetaMask as custom network. The URL is displayed in Ganache. The default should be [`http://127.0.0.1:7545`](http://127.0.0.1:7545). Give the network a name and specify `0x539`as chain ID. Then, import an Ethereum account from Ganach to your MetaMask wallet. This is done by importing the corresponding private key. You can find all private keys in the account tab of Ganache when you click on the key symbol positioned on the right of each row. After visiting a site that supports MetaMask, you need to specify which account you want to use, by connecting the account to the site.
-   If MetaMask is not present, the application will directly connect to Ganache. This is due to the definition of a fallback in [`app/client/src/drizzleOptions.js`](./app/client/src/drizzleOptions.js)
-
-   ```js
-   const options = {
-     // ...
-     web3: {
-       fallback: {
-         type: "ws",
-         url: "ws://127.0.0.1:7545",
-       },
-     },
-   };
-   ```
+4. Configure the MetaMask browser plugin. Therefore, add your local Blockchain to MetaMask as custom network. The URL is displayed in Ganache. The default should be [`http://127.0.0.1:7545`](http://127.0.0.1:7545) (as mentioned above, if you want to mirror the dockerized version, use `8545` as port). Give the network a name and specify `1337` as chain ID. Then, import an Ethereum account from Ganach to your MetaMask wallet. This is done by importing the corresponding private key. You can find all private keys in the account tab of Ganache when you click on the key symbol positioned on the right of each row. After visiting a site that supports MetaMask, you need to specify which account you want to use, by connecting the account to the site.
 
 #### Development
 

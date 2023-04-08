@@ -1,4 +1,5 @@
 import DefaultPaddingXnY from "@/components/layout/DefaultPaddingXnY";
+import UserCard from "@/components/user/UserCard";
 import Head from "next/head";
 
 export default function Home() {
@@ -47,7 +48,29 @@ export default function Home() {
                 Tailwind CSS
               </a>
             </li>
+            <li>
+              <a
+                className="my-1 text-gray-400 underline"
+                href="https://wagmi.sh/"
+                target="_blank"
+              >
+                Wagmi
+              </a>
+            </li>
+            <li>
+              <a
+                className="my-1 text-gray-400 underline"
+                href="https://docs.ethers.org/v5/"
+                target="_blank"
+              >
+                EthersJs (v5)
+              </a>{" "}
+              (comes with Wagmi)
+            </li>
           </ul>
+          <div className="bg-gray-300 dark:bg-gray-700 inline-block rounded-lg mt-3">
+            <UserCard />
+          </div>
         </section>
       </article>
     </DefaultPaddingXnY>
