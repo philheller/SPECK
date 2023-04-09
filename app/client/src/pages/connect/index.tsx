@@ -34,7 +34,7 @@ const index = () => {
     <DefaultPaddingXnY>
       <h2>Connect here</h2>
       <h3>Information about page 1</h3>
-      <div className="px-2 py-1 text-gray-100 bg-green-800 rounded my-3 inline-block">
+      <div className="my-3 inline-block rounded bg-green-800 px-2 py-1 text-gray-100">
         DONE
       </div>
       {isSetup ? (
@@ -54,8 +54,8 @@ const index = () => {
       {isSetup ? (
         isConnected ? (
           <>
-            <div className="flex gap-4 mt-3">
-              <div className="bg-gray-600 rounded">
+            <div className="mt-3 flex gap-4">
+              <div className="rounded bg-gray-600">
                 <Jdenticon size="48" value={address} />
               </div>
               <div>
@@ -64,7 +64,7 @@ const index = () => {
               </div>
             </div>
             <button
-              className="px-3 py-1 m-2 bg-gray-900 text-gray-100 rounded hover:bg-gray-950 transition-colors duration-200"
+              className="m-2 rounded bg-gray-900 px-3 py-1 text-gray-100 transition-colors duration-200 hover:bg-gray-950"
               onClick={() => disconnect()}
             >
               Disconnect
@@ -75,7 +75,7 @@ const index = () => {
             <div>
               {connectors.map((connector) => (
                 <button
-                  className="px-3 py-1 m-2 bg-gray-900 text-gray-100 rounded hover:bg-gray-950 transition-colors duration-200"
+                  className="m-2 rounded bg-gray-900 px-3 py-1 text-gray-100 transition-colors duration-200 hover:bg-gray-950"
                   disabled={!connector.ready}
                   key={connector.id}
                   onClick={() => connect({ connector })}

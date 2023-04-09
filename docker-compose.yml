@@ -4,12 +4,22 @@ services:
   # start the ganache cli container
   # comment out "ganache-cli" if you use ganache desktop
   ganache-cli:
-    container_name: ganache-cli
-    build:
-      context: .
-      dockerfile: ganache-cli/Dockerfile
+    image: trufflesuite/ganache-cli:latest
     ports:
-      - 8545:8545
+      - "8545:8545"
+    volumes:
+      - /app/ganache_data
+    entrypoint:
+      - node
+      - /app/ganache-core.docker.cli.js
+      - --deterministic
+      - --db=/app/ganache_data
+      - --mnemonic
+      - "zebra erase plunge"
+      - --networkId
+      - "1337"
+      - --hostname
+      - "0.0.0.0"
   truffle-suite:
     container_name: truffle-suite
     build:
