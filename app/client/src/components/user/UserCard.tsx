@@ -1,16 +1,13 @@
 // web3
 import { useAccount } from "wagmi";
-// @ts-ignore
-import Jdenticon from "react-jdenticon";
+import UserAvatar from "./UserAvatar";
 
 const UserCard = () => {
   const { address, connector, isConnected } = useAccount();
 
   return (
     <div className="flex gap-4 p-2">
-      <div className="bg-gray-600 rounded">
-        <Jdenticon size="48" value={address || "?"} />
-      </div>
+      <UserAvatar address={address} />
       <div>
         <div>
           {address
