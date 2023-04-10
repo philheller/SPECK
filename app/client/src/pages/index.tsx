@@ -67,6 +67,20 @@ export default function Home() {
               </a>{" "}
               (comes with Wagmi)
             </li>
+            <h4 className="mt-2">Optionally:</h4>
+            <p>
+              If you consider adding some kind of state management, you can use:
+            </p>
+            <li>
+              <a
+                className="my-1 text-gray-600 underline dark:text-gray-400"
+                href="https://docs.ethers.org/v5/"
+                target="_blank"
+              >
+                Zustand
+              </a>{" "}
+              (also comes with Wagmi)
+            </li>
           </ul>
           <div className="mt-3 inline-block rounded-lg bg-gray-300 dark:bg-gray-700">
             <UserCard />

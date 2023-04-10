@@ -61,7 +61,8 @@ const index = () => {
             >
               React query
             </a>
-            , more advanced functionalities around data fetching
+            , more advanced functionalities around data fetching (comes with
+            wagmi)
           </li>
         </ul>
       </div>
