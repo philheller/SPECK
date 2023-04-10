@@ -5,6 +5,7 @@ services:
   # comment out "ganache-cli" if you use ganache desktop
   ganache-cli:
     image: trufflesuite/ganache-cli:latest
+    container_name: ganache-cli
     ports:
       - "8545:8545"
     volumes:
@@ -20,28 +21,39 @@ services:
       - "1337"
       - --hostname
       - "0.0.0.0"
-  truffle-suite:
-    container_name: truffle-suite
+  truffle:
+    container_name: truffle
     build:
       context: .
-      dockerfile: truffle-suite/Dockerfile
-    working_dir: /opt/node_app/client
-    # if developing next locally, comment out the entrypoint
-    # to increase the speed of hot reloading, commment out wepback in ./client/next.config.js
-    entrypoint: npm run dev
+      dockerfile: truffle/Dockerfile
+    working_dir: /opt/truffle/
+    volumes:
+      # if operations don't need any writes (apart from migration)
+      # then you can use "ro" instead of "rw" for the first volume
+      - ./app:/opt/truffle:rw
+      - contracts:/opt/truffle/client/src/contracts:rw
+    stdin_open: true # docker run -i (keep container running)
+    tty: true # docker run -t (show output at startup with compose)
+  node-app:
+    build:
+      context: .
+      dockerfile: node-app/Dockerfile
+    container_name: node-app
+    working_dir: /opt/node_app
     ports:
       - 3000:3000
     volumes:
-      - app-dir:/opt/node_app:rw
+      - ./app/client:/opt/node_app/:rw
+      - contracts:/opt/node_app/src/contracts:ro
       # for next and caching:
-      - /opt/node_app/client/.next
-      - /opt/node_app/client/node_modules
-    stdin_open: true # docker run -i
-    tty: true # docker run -t
+      - /opt/node_app/.next
+      - /opt/node_app/node_modules
+    stdin_open: true
+    entrypoint: npm run dev
 volumes:
-  app-dir:
+  contracts:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: app
+      device: app/client/src/contracts
