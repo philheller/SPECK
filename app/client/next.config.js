@@ -9,6 +9,8 @@ const nextConfig = {
     };
     return config;
   },
+  // for static export
+  // output: 'export',
 };
 
 module.exports = nextConfig;

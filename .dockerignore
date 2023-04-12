@@ -1,26 +1,32 @@
 # Ignore files and directories related to version control
-.git*
-.git
-.gitignore
-.svn
+**/.git*
+**/.git
+**/.gitignore
+**/.svn
 
-# Ignore node_modules directory and its content for Node.js projects
-node_modules
+# dependency files
+**/node_modules
+**/pnpm-lock.yaml
+**/yarnrc.yml
+**/.yarn
+**/yarn.lock
+**/.pnp*
 
 # Ignore temporary files and build artifacts
-*.log
-*.tmp
-*.bak
-*.swp
-*.pyc
-.DS_Store
-.next
+**/*.log
+**/*.tmp
+**/*.bak
+**/*.swp
+**/*.pyc
+**/.DS_Store
+**/.next
+**/out
 
 # Ignore editor-specific files
-.vscode
-.idea
+**/.vscode
+**/.idea
 
 # others
-*.md
-example.env
-*.env
+**/*.md
+**/example.env
+**/*.env
