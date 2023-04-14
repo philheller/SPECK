@@ -1,4 +1,4 @@
-FROM node:lts-bullseye-slim
+FROM node:latest
 
 # install dependencies first for better caching
 WORKDIR /opt/node_app/

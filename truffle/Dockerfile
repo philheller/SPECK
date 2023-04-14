@@ -1,4 +1,4 @@
-FROM node:lts-bullseye-slim
+FROM node:latest
 
 # Install truffle and dependencies
 RUN npm install -g truffle@latest

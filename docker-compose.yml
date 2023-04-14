@@ -4,7 +4,9 @@ services:
   # start the ganache cli container
   # comment out "ganache-cli" if you use ganache desktop
   ganache-cli:
-    image: trufflesuite/ganache-cli:latest
+    build:
+      context: .
+      dockerfile: ganache-cli/Dockerfile
     container_name: ganache-cli
     ports:
       - "8545:8545"
