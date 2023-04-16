@@ -25,7 +25,7 @@ contract Speck is ERC721 {
     mapping(uint256 => Product) private _products;
 
     constructor(string memory name, string memory symbol) ERC721(name, symbol) {
-        next_id = 0;
+        next_id = 1;
     }
 
     function createNewProduct(Product memory _product_data) public {
