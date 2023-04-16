@@ -8,8 +8,9 @@ contract Authenticator {
 
     uint256 private next_id;
 
-    mapping(uint256 => Organization_registration) private authenticated;
-    mapping(uint256 => Organization_registration) private requested;
+    mapping(uint256 => bool) private authenticated;
+    mapping(uint256 => Organization) private organization_data;
+    mapping(uint256 => Organization) private requested;
     mapping(address => uint256) private address_to_id;
 
     struct Organization {
@@ -35,19 +36,26 @@ contract Authenticator {
         next_id = 0;
     }
 
-    function authenticate(address _organization_id) public returns (bool) {
-        emit Authenticate("Message");
+    function authenticate_by_id(
+        uint256 _organization_id
+    ) public view returns (bool) {
         return authenticated[_organization_id];
+        // emit Authenticate("Message");
+    }
+
+    function authenticate_by_address() public view returns (bool) {
+        return authenticate_by_id(address_to_id[msg.sender]);
+        // emit Authenticate("Message");
     }
 
     function request_registration(
         Organization memory _organization_data
     ) public {
         address_to_id[msg.sender] = next_id;
-        authenticated[msg.sender] = _organization_data;
+        organization_data[address_to_id[msg.sender]] = _organization_data;
         next_id++;
-        emit Register("Message");
+        // emit Register("Message");
     }
 
-    function register()
+    // function register()
 }
