@@ -34,6 +34,7 @@ services:
       # then you can use "ro" instead of "rw" for the first volume
       - ./app:/opt/truffle:rw
       - contracts:/opt/truffle/client/src/contracts:rw
+      - /opt/truffle/node_modules
     stdin_open: true # docker run -i (keep container running)
     tty: true # docker run -t (show output at startup with compose)
   node-app:
