@@ -45,12 +45,12 @@ contract Speck is ERC721 {
     }
 
     function getProductData(
-        uint256 _token_id
+        uint256 _tokenId
     ) public view returns (Product memory) {
-        return _products[_token_id];
+        return _products[_tokenId];
     }
 
-    function totalAmout() public view returns (uint256) {
+    function totalTokenAmout() public view returns (uint256) {
         return _tokenIds.current();
     }
 }

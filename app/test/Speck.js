@@ -1,10 +1,11 @@
 const Speck = artifacts.require("./Speck.sol");
 
 contract("Speck", (accounts) => {
-  let speckInstance; // Use a different variable name for the instance
+  let speckInstance;
+  let tokenId;
 
   before(async () => {
-    speckInstance = await Speck.deployed(); // Store the deployed instance in the variable
+    speckInstance = await Speck.deployed();
   });
 
   it("should store a new product", async () => {
@@ -25,13 +26,22 @@ contract("Speck", (accounts) => {
       medication: "Iboprofen",
     };
 
-    await speckInstance.createNewProduct(productData, {
+    const res = await speckInstance.createNewProduct(productData, {
       from: accounts[0],
-    }); // Use the stored instance for the test
+    });
+
+    tokenId = res.logs[0].args[2].toNumber();
+  });
+
+  it("should have a total amount of tokens greater than 0", async () => {
+    const totalTokenAmount = (
+      await speckInstance.totalTokenAmout.call()
+    ).toNumber();
+    expect(totalTokenAmount).to.be.above(0);
   });
 
   it("should allow to retrieve the new product data", async () => {
-    const productData = await speckInstance.getProductData.call(1);
+    const productData = await speckInstance.getProductData.call(tokenId);
     expect(productData).to.not.be.empty;
   });
 });
