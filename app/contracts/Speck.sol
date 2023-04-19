@@ -22,6 +22,7 @@ contract Speck is ERC721 {
         uint256 fat_percentage;
         string feed;
         string medication;
+        string timestamp;
     }
 
     mapping(uint256 => Product) private _products;
@@ -48,6 +49,26 @@ contract Speck is ERC721 {
         uint256 _tokenId
     ) public view returns (Product memory) {
         return _products[_tokenId];
+    }
+
+    function getProductHistory(
+        uint256 _tokenId
+    ) public view returns (Product[] memory) {
+        uint256 totalProducts = totalTokenAmout();
+        Product[] memory products = new Product[](totalProducts);
+
+        Product memory currentProduct = _products[_tokenId];
+        products[0] = currentProduct;
+
+        uint256 index = 1;
+
+        while (currentProduct.previous_product != 0) {
+            currentProduct = _products[currentProduct.previous_product];
+            products[index] = currentProduct;
+            index++;
+        }
+
+        return products;
     }
 
     function totalTokenAmout() public view returns (uint256) {
