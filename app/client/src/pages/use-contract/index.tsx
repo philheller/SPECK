@@ -1,4 +1,4 @@
-import DefaultPaddingXnY from "@/components/layout/DefaultPaddingXnY";
+import DefaultPaddingXnY from "@/components/Layout/DefaultPaddingXnY";
 import { useEffect, useState } from "react";
 import {
   useContractWrite,

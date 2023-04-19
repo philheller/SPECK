@@ -1,4 +1,4 @@
-import DefaultPaddingXnY from "@/components/layout/DefaultPaddingXnY";
+import DefaultPaddingXnY from "@/components/Layout/DefaultPaddingXnY";
 // web3
 import { useAccount, useContractEvent, useContractRead } from "wagmi";
 // contract

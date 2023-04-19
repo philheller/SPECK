@@ -7,7 +7,7 @@ const DefaultPaddingX = ({
 }) => {
   return (
     <div
-      className={`w-full max-w-[1440px] px-[calc(5%+0.3rem)] m-auto ${className}`}
+      className={`m-auto w-full max-w-[1440px] px-[calc(5%+0.3rem)] ${className}`}
     >
       {children}
     </div>

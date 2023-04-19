@@ -1,4 +1,4 @@
-import DefaultPaddingXnY from "@/components/layout/DefaultPaddingXnY";
+import DefaultPaddingXnY from "@/components/Layout/DefaultPaddingXnY";
 import { useEffect, useState } from "react";
 // web3
 import {
@@ -10,6 +10,7 @@ import {
 } from "wagmi";
 // @ts-ignore
 import Jdenticon from "react-jdenticon";
+import ConnectionStatus from "@/components/User/ConnectionStatusSymbol";
 
 const index = () => {
   const [isSetup, setIsSetup] = useState(false);
@@ -56,7 +57,7 @@ const index = () => {
           <>
             <div className="mt-3 flex gap-4">
               <div className="rounded bg-gray-600">
-                <Jdenticon size="48" value={address} />
+                <ConnectionStatus address={address} />
               </div>
               <div>
                 <div>{address}</div>
