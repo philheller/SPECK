@@ -42,7 +42,7 @@ contract("Speck", (accounts) => {
 
   it("should have a total amount of tokens greater than 0", async () => {
     const totalTokenAmount = (
-      await speckInstance.totalTokenAmout.call()
+      await speckInstance.totalProductAmount.call()
     ).toNumber();
     expect(totalTokenAmount).to.be.above(0);
   });

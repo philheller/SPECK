@@ -8,6 +8,8 @@ contract Speck is ERC721 {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
+    event NewProductCreated(uint256 indexed tokenId, address indexed owner);
+
     struct Product {
         string id;
         string rfid;
@@ -42,6 +44,8 @@ contract Speck is ERC721 {
 
         _safeMint(msg.sender, newItemId);
         _products[newItemId] = _product_data;
+
+        emit NewProductCreated(newItemId, msg.sender);
         return newItemId;
     }
 
@@ -54,8 +58,8 @@ contract Speck is ERC721 {
     function getProductHistory(
         uint256 _tokenId
     ) public view returns (Product[] memory) {
-        uint256 totalProducts = totalTokenAmout();
-        Product[] memory products = new Product[](totalProducts);
+        uint256 totalAmount = totalProductAmount();
+        Product[] memory products = new Product[](totalAmount);
 
         Product memory currentProduct = _products[_tokenId];
         products[0] = currentProduct;
@@ -71,7 +75,7 @@ contract Speck is ERC721 {
         return products;
     }
 
-    function totalTokenAmout() public view returns (uint256) {
+    function totalProductAmount() public view returns (uint256) {
         return _tokenIds.current();
     }
 }
