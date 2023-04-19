@@ -9,10 +9,6 @@ contract("Speck", (accounts) => {
   });
 
   it("should store a new product", async () => {
-    const timestamp = Date.now();
-    const dateObj = new Date(timestamp);
-    const dateString = dateObj.toISOString();
-
     const productData = {
       id: "ABC123",
       rfid: "TestRFID",

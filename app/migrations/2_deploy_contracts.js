@@ -1,9 +1,11 @@
 const MyStringStore = artifacts.require("MyStringStore");
 const Speck = artifacts.require("Speck");
-const Authenticator = artifacts.require("Authenticator");
+const OrganizationAuthenticator = artifacts.require(
+  "OrganizationAuthenticator"
+);
 
 module.exports = function (deployer) {
   deployer.deploy(MyStringStore);
-  deployer.deploy(Authenticator);
+  deployer.deploy(OrganizationAuthenticator);
   deployer.deploy(Speck, "SPECK", "SPX");
 };
