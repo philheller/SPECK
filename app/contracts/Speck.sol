@@ -58,6 +58,10 @@ contract Speck is ERC721 {
     function getProductHistory(
         uint256 _tokenId
     ) public view returns (Product[] memory) {
+        require(
+            bytes(_products[_tokenId].id).length > 0,
+            "Product-ID does not exist."
+        );
         uint256 totalAmount = totalProductAmount();
         Product[] memory products = new Product[](totalAmount);
 
