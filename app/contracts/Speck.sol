@@ -10,6 +10,8 @@ contract Speck is ERC721 {
 
     event NewProductCreated(uint256 indexed tokenId, address indexed owner);
 
+    //TODO: USE ENUMS FOR GENDER AND SLAUGHTER METHOD
+    //TODO: ACCESS CONTROL FOR createNewProduct
     struct Product {
         string id;
         string rfid;
@@ -35,9 +37,7 @@ contract Speck is ERC721 {
         string memory symbol
     ) ERC721(name, symbol) {}
 
-    function createNewProduct(
-        Product memory _product_data
-    ) public returns (uint256) {
+    function createNewProduct(Product memory _product_data) public {
         //Incremented tokenId for starting the tokenId from 1.
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
@@ -46,53 +46,76 @@ contract Speck is ERC721 {
         _products[newItemId] = _product_data;
 
         emit NewProductCreated(newItemId, msg.sender);
-        return newItemId;
+        return;
     }
 
     function getProductData(
         uint256 _tokenId
-    ) public view returns (Product memory) {
-        return _products[_tokenId];
+    ) public view returns (Product memory, uint256, address) {
+        return (_products[_tokenId], _tokenId, ownerOf(_tokenId));
     }
 
     function getMultipleProductData(
-        uint256[] memory _tokenIds
-    ) public view returns (Product[] memory) {
-        Product[] memory products = new Product[](_tokenIds.length);
+        uint256[] memory _token_ids
+    )
+        public
+        view
+        returns (Product[] memory, uint256[] memory, address[] memory)
+    {
+        Product[] memory products = new Product[](_token_ids.length);
+        uint256[] memory tokenIds = new uint256[](_token_ids.length);
+        address[] memory owners = new address[](_token_ids.length);
 
-        for (uint256 i = 0; i < _tokenIds.length; i++) {
-            products[i] = _products[_tokenIds[i]];
+        uint256 currentTokenId;
+        for (uint256 i = 0; i < _token_ids.length; i++) {
+            currentTokenId = _token_ids[i];
+            require(
+                bytes(_products[currentTokenId].id).length > 0,
+                "Speck: Product-ID does not exist."
+            );
+            products[i] = _products[currentTokenId];
+            tokenIds[i] = currentTokenId;
+            owners[i] = ownerOf(currentTokenId);
         }
 
-        return products;
+        return (products, tokenIds, owners);
     }
 
     function getProductHistory(
         uint256 _tokenId
-    ) public view returns (Product[] memory) {
+    )
+        public
+        view
+        returns (Product[] memory, uint256[] memory, address[] memory)
+    {
         require(
             bytes(_products[_tokenId].id).length > 0,
-            "Product-ID does not exist."
+            "Speck: Product-ID does not exist."
         );
         uint256 totalAmount = totalProductAmount();
         Product[] memory products = new Product[](totalAmount);
+        uint256[] memory tokenIds = new uint256[](totalAmount);
+        address[] memory owners = new address[](totalAmount);
 
         Product memory currentProduct = _products[_tokenId];
         products[0] = currentProduct;
 
+        uint256 currentTokenId = _tokenId;
+        tokenIds[0] = currentTokenId;
+        owners[0] = ownerOf(currentTokenId);
+
         uint256 index = 1;
 
         while (currentProduct.previous_product != 0) {
-            currentProduct = _products[currentProduct.previous_product];
+            currentTokenId = currentProduct.previous_product;
+            currentProduct = _products[currentTokenId];
             products[index] = currentProduct;
+            tokenIds[index] = currentTokenId;
+            owners[index] = ownerOf(currentTokenId);
             index++;
         }
 
-        return products;
-    }
-
-    function getProductOwner(uint256 _tokenId) public view returns (address) {
-        return ownerOf(_tokenId);
+        return (products, tokenIds, owners);
     }
 
     function totalProductAmount() public view returns (uint256) {
