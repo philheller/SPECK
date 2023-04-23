@@ -119,7 +119,7 @@ After cloning the repository and changing to the `speck-hackathon/` (see [First 
 
    You can now interact with the containers. For example, you can open a bash session in the `truffle` container and run truffle commands (see next step). The frontend in the `node-app` container is running on [http://localhost:3000](http://localhost:3000).
 
-2. To interact with truffle, start a bash session in the `truffle` container:
+2. To interact with truffle, start a bash session in the `truffle` container (in a new terminal session):
 
    ```bash
    docker exec -it truffle bash
