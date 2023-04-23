@@ -55,6 +55,18 @@ contract Speck is ERC721 {
         return _products[_tokenId];
     }
 
+    function getMultipleProductData(
+        uint256[] memory _tokenIds
+    ) public view returns (Product[] memory) {
+        Product[] memory products = new Product[](_tokenIds.length);
+
+        for (uint256 i = 0; i < _tokenIds.length; i++) {
+            products[i] = _products[_tokenIds[i]];
+        }
+
+        return products;
+    }
+
     function getProductHistory(
         uint256 _tokenId
     ) public view returns (Product[] memory) {

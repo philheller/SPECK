@@ -48,6 +48,38 @@ contract("Speck", (accounts) => {
     expect(productData).to.not.be.empty;
   });
 
+  before(async () => {
+    const productData = {
+      id: "ABC123",
+      rfid: "TestRFID",
+      genetics:
+        "GAAACGCGCCCAACTGACGCTAGGCAAGTCAGTGCAGGCTCCCGTGTTAGGATAAGGGTAAACATACAAGTCGATAGAAGATGGGTAGGGGCCTTCAATT",
+      gender: 1,
+      slaughter_method: 2,
+      findings: "",
+      ph_value: 7,
+      previous_product: 0,
+      product_type: "Pig",
+      animal_weight_g: 26000,
+      fat_percentage: 17,
+      feed: "Corn",
+      medication: "Iboprofen",
+      timestamp: getCurrentTime(),
+    };
+
+    await speckInstance.createNewProduct(productData, {
+      from: accounts[0],
+    });
+  });
+
+  it("should allow to retrieve multiple products at once", async () => {
+    const productsData = await speckInstance.getMultipleProductData.call([
+      tokenId,
+      tokenId + 1,
+    ]);
+    expect(productsData).to.not.be.empty;
+  });
+
   it("should allow to add a second product connected to the first product", async () => {
     const productData = {
       id: "ABC123",
