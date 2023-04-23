@@ -23,7 +23,8 @@
     @apply mb-1 text-base font-bold md:text-lg;
   }
 
-  body {
+  body,
+  label {
     @apply text-sm md:text-base;
   }
 }
