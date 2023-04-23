@@ -1,6 +1,11 @@
 import Card from "@/components/Card";
 import DefaultPaddingXnY from "@/components/Layout/DefaultPaddingXnY";
 import { useRouter } from "next/router";
+import Spinner from "@/components/Loading/Spinner";
+// web3
+import useHydrationSafeCall from "@/hooks/useHydrationSafeCall";
+import { useContractRead } from "wagmi";
+import ContractJson from "@/contracts/Speck.json";
 
 const index = () => {
   const router = useRouter();
@@ -38,10 +43,20 @@ const index = () => {
       expiringOn: "2021-01-01",
     },
   ];
+
+  const isHydrationSafe = useHydrationSafeCall();
+  const { data, error, isLoading, isSuccess } = useContractRead({
+    address: ContractJson.networks[1337].address as `0x${string}`,
+    abi: ContractJson.abi,
+    functionName: "getProductData",
+    args: [id?.toString()],
+  });
+
   return (
     <DefaultPaddingXnY>
       <h2>Product #{id}</h2>
       <section className="flex flex-col gap-3">
+        <h3>🚧 UI preview</h3>
         {products.map((product) => (
           <Card
             key={product.id}
@@ -55,6 +70,22 @@ const index = () => {
             </h3>
           </Card>
         ))}
+      </section>
+
+      <section>
+        <h3 className="mt-5">🚧 Contract implementation</h3>
+        {isHydrationSafe ? (
+          <>
+            {isLoading && <p> Loading... </p>}
+            {isSuccess && <p>{JSON.stringify(data)}</p>}
+          </>
+        ) : (
+          <div className="flex items-center justify-center">
+            <div className="h-5 w-5">
+              <Spinner />
+            </div>
+          </div>
+        )}
       </section>
     </DefaultPaddingXnY>
   );
