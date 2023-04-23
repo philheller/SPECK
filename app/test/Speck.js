@@ -1,8 +1,11 @@
 const Speck = artifacts.require("./Speck.sol");
+const {
+  transformSingleProductArray,
+  transformProductsArray,
+} = require("../client/src/utils/helpers.js");
 
 contract("Speck", (accounts) => {
   let speckInstance;
-  let tokenId;
 
   before(async () => {
     speckInstance = await Speck.deployed();
@@ -31,8 +34,6 @@ contract("Speck", (accounts) => {
       from: accounts[0],
     });
 
-    tokenId = res.logs[0].args[2].toNumber();
-
     expect(res.receipt.status).to.be.true;
   });
 
@@ -44,40 +45,9 @@ contract("Speck", (accounts) => {
   });
 
   it("should allow to retrieve the new product data", async () => {
-    const productData = await speckInstance.getProductData.call(tokenId);
+    let productData = await speckInstance.getProductData.call(1);
+    productData = transformSingleProductArray(productData);
     expect(productData).to.not.be.empty;
-  });
-
-  before(async () => {
-    const productData = {
-      id: "ABC123",
-      rfid: "TestRFID",
-      genetics:
-        "GAAACGCGCCCAACTGACGCTAGGCAAGTCAGTGCAGGCTCCCGTGTTAGGATAAGGGTAAACATACAAGTCGATAGAAGATGGGTAGGGGCCTTCAATT",
-      gender: 1,
-      slaughter_method: 2,
-      findings: "",
-      ph_value: 7,
-      previous_product: 0,
-      product_type: "Pig",
-      animal_weight_g: 26000,
-      fat_percentage: 17,
-      feed: "Corn",
-      medication: "Iboprofen",
-      timestamp: getCurrentTime(),
-    };
-
-    await speckInstance.createNewProduct(productData, {
-      from: accounts[0],
-    });
-  });
-
-  it("should allow to retrieve multiple products at once", async () => {
-    const productsData = await speckInstance.getMultipleProductData.call([
-      tokenId,
-      tokenId + 1,
-    ]);
-    expect(productsData).to.not.be.empty;
   });
 
   it("should allow to add a second product connected to the first product", async () => {
@@ -90,7 +60,7 @@ contract("Speck", (accounts) => {
       slaughter_method: 2,
       findings: "",
       ph_value: 7,
-      previous_product: tokenId,
+      previous_product: 1,
       product_type: "Pig",
       animal_weight_g: 32000,
       fat_percentage: 17,
@@ -107,8 +77,15 @@ contract("Speck", (accounts) => {
   });
 
   it("should allow to retrieve the product history of the last product", async () => {
-    const productsHistory = await speckInstance.getProductHistory.call(tokenId);
+    let productsHistory = await speckInstance.getProductHistory.call(2);
+    productsHistory = transformProductsArray(productsHistory);
     expect(productsHistory).to.not.be.empty;
+  });
+
+  it("should allow to retrieve multiple products at once", async () => {
+    let productsData = await speckInstance.getMultipleProductData.call([1, 2]);
+    productsData = transformProductsArray(productsData);
+    expect(productsData).to.not.be.empty;
   });
 });
 
