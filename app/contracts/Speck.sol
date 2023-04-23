@@ -91,6 +91,10 @@ contract Speck is ERC721 {
         return products;
     }
 
+    function getProductOwner(uint256 _tokenId) public view returns (address) {
+        return ownerOf(_tokenId);
+    }
+
     function totalProductAmount() public view returns (uint256) {
         return _tokenIds.current();
     }
