@@ -116,12 +116,11 @@ const index = () => {
                 <h3 className="flex justify-between">
                   <span>This is a card</span>
                   <button
-                    // ! todo this is subject to change (will need unique id from contract)
-                    className={`dark:text-gray-400 ${
+                    className={` ${
                       // @ts-ignore
-                      storedValue.some((product) => product.tokenId === id)
-                        ? "dark:text-gray-100"
-                        : "dark:text-gray-500"
+                      storedValue.some((product) => product.tokenId == id)
+                        ? "text-gray-900 dark:text-gray-100"
+                        : "text-gray-500 dark:text-gray-500"
                     }`}
                     onClick={
                       // @ts-ignore

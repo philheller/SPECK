@@ -19,11 +19,8 @@ const useLocalProductStorage = () => {
   };
 
   const removeProduct = (productBookmark: Pick<ProductBookmark, "tokenId">) => {
-    setValue(
-      storedValue.filter(
-        (p: ProductBookmark) => p.tokenId !== productBookmark.tokenId
-      )
-    );
+    const res = storedValue.filter((p) => p.tokenId != productBookmark.tokenId);
+    setValue(res);
   };
 
   const clearProducts = () => {
@@ -36,7 +33,7 @@ const useLocalProductStorage = () => {
    */
   const toggleProduct = (product: ProductBookmark) => {
     const isBookmarked = storedValue.some(
-      (p: ProductBookmark) => p.tokenId === product.tokenId
+      (p: ProductBookmark) => p.tokenId == product.tokenId
     );
     if (isBookmarked) {
       removeProduct(product);

@@ -20,6 +20,7 @@
     "@types/react-dom": "18.0.11",
     "@wagmi/chains": "^0.2.18",
     "autoprefixer": "10.4.14",
+    "date-fns": "^2.29.3",
     "ethers": "^5.7.2",
     "next": "13.3.0",
     "postcss": "8.4.21",
