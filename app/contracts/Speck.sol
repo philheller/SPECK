@@ -3,6 +3,7 @@ pragma solidity >=0.8.3;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "./OrganizationAuthenticator.sol";
 
 contract Speck is ERC721 {
     using Counters for Counters.Counter;
@@ -10,8 +11,16 @@ contract Speck is ERC721 {
 
     event NewProductCreated(uint256 indexed tokenId, address indexed owner);
 
-    //TODO: USE ENUMS FOR GENDER AND SLAUGHTER METHOD
-    //TODO: ACCESS CONTROL FOR createNewProduct
+    //TODO: CHANGE TO TRUE
+    modifier onlyRegistered() {
+        require(
+            _organizationAuthenticator.authenticate(msg.sender) == false,
+            "ORGANIZATION AUTHENTICATOR: You are not authenticated."
+        );
+        _;
+    }
+
+    OrganizationAuthenticator private _organizationAuthenticator;
     struct Product {
         string id;
         string rfid;
@@ -32,12 +41,13 @@ contract Speck is ERC721 {
     mapping(uint256 => Product) private _products;
     mapping(uint256 => address) private _tokenOwner;
 
-    constructor(
-        string memory name,
-        string memory symbol
-    ) ERC721(name, symbol) {}
+    constructor(string memory name, string memory symbol) ERC721(name, symbol) {
+        _organizationAuthenticator = new OrganizationAuthenticator();
+    }
 
-    function createNewProduct(Product memory _product_data) public {
+    function createNewProduct(
+        Product memory _product_data
+    ) public onlyRegistered {
         //Incremented tokenId for starting the tokenId from 1.
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();

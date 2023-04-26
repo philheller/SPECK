@@ -103,7 +103,6 @@ contract("Speck", (accounts) => {
 
   it("should allow to retrieve multiple products at once", async () => {
     let productsData = await speckInstance.getMultipleProductData.call([1, 2]);
-    console.log("==============Product 1 2=============");
     productsData = transformProductsArray(productsData);
     expect(productsData).to.not.be.empty;
   });
