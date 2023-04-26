@@ -1,8 +1,13 @@
 const Speck = artifacts.require("./Speck.sol");
 const {
-  transformSingleProductArray,
-  transformProductsArray,
+  useTransformProductData,
+  useTransformProductDatas,
 } = require("../utils/helpers.js");
+
+// const {
+//   useTransformProductData,
+//   useTransformProductDatas,
+// } = require("../client/src/hooks/useTransformContractData.ts");
 
 contract("Speck", (accounts) => {
   let speckInstance;
@@ -39,7 +44,7 @@ contract("Speck", (accounts) => {
 
   it("should allow to retrieve the new product data", async () => {
     let productData = await speckInstance.getProductData.call(1);
-    productData = transformSingleProductArray(productData);
+    productData = useTransformProductData(productData);
     expect(productData).to.not.be.empty;
   });
 
@@ -97,13 +102,13 @@ contract("Speck", (accounts) => {
 
   it("should allow to retrieve the product history of the last product", async () => {
     let productsHistory = await speckInstance.getProductHistory.call(2);
-    productsHistory = transformProductsArray(productsHistory);
+    productsHistory = useTransformProductDatas(productsHistory);
     expect(productsHistory).to.not.be.empty;
   });
 
   it("should allow to retrieve multiple products at once", async () => {
     let productsData = await speckInstance.getMultipleProductData.call([1, 2]);
-    productsData = transformProductsArray(productsData);
+    productsData = useTransformProductDatas(productsData);
     expect(productsData).to.not.be.empty;
   });
 
@@ -112,6 +117,14 @@ contract("Speck", (accounts) => {
       await speckInstance.totalProductAmount.call()
     ).toNumber();
     expect(totalTokenAmount).to.be.equal(3);
+  });
+
+  it("should not allow to retrieve a non-existant product Id", async () => {
+    try {
+      await speckInstance.getProductData.call(999999);
+    } catch (error) {
+      expect(error.message).to.include("ERC721: invalid token ID");
+    }
   });
 });
 

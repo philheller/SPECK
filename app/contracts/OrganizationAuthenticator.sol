@@ -21,6 +21,8 @@ contract OrganizationAuthenticator is Ownable {
     mapping(uint256 => bool) private _requestedRegistration;
     mapping(address => uint256) private _addressToId;
 
+    uint256[] _requestedRegistrationArray;
+
     struct Organization {
         string id;
         string name;
@@ -49,10 +51,10 @@ contract OrganizationAuthenticator is Ownable {
         return _authenticated[_orgId];
     }
 
-    function request_registration(Organization memory _data) public {
+    function requestRegistration(Organization memory _data) public {
         require(
             _addressToId[msg.sender] == 0,
-            "Registration was already requested or accepted"
+            "ORGANIZATION AUTHENTICATOR: Registration was already requested or accepted"
         );
 
         _orgIds.increment();
@@ -61,40 +63,51 @@ contract OrganizationAuthenticator is Ownable {
         _addressToId[msg.sender] = newOrgId;
         _requestedRegistration[newOrgId] = true;
         _organizationData[newOrgId] = _data;
-        _registeredAmount.increment();
-
-        _authenticated[_addressToId[msg.sender]] = true;
+        _requestAmount.increment();
+        _requestedRegistrationArray.push(newOrgId);
     }
 
-    // function register() public onlyOwner {}
+    function register(uint256 _orgId) public onlyOwner {
+        require(
+            _requestedRegistration[_orgId] == true,
+            "ORGANIZATION AUTHENTICATOR: Organization ID does not have an active registration request."
+        );
 
-    // function getRequestedRegistrations()
-    //     public
-    //     view
-    //     returns (Organization[] memory)
-    // {
-    //     uint256 totalAmount = totalRequestedOrganizationAmount();
-    //     Organization[] memory organizations = new Organization[](totalAmount);
-    //     uint256 index = 0;
-    //     uint256[] memory keys = new uint256[](totalAmount);
+        _authenticated[_orgId] = true;
+        _requestAmount.decrement();
+        _requestedRegistration[_orgId] = false;
+        // removeOrgAtIndex(_orgId);
+    }
 
-    //     // Store keys of _requestedRegistration where the value is true
-    //     for (uint256 i = 1; i <= mapLength(_requestedRegistration); i++) {
-    //         if (_requestedRegistration[i]) {
-    //             keys[index] = i;
-    //             index++;
-    //         }
-    //     }
+    function getRequestedRegistrations()
+        public
+        view
+        returns (Organization[] memory)
+    {
+        uint256 totalRequestedAmount = _requestAmount.current();
+        Organization[] memory organizations = new Organization[](
+            totalRequestedAmount
+        );
 
-    //     // Retrieve corresponding organization_data for each key
-    //     for (uint256 i = 0; i < index; i++) {
-    //         organizations[i] = _organizationData[keys[i]];
-    //     }
+        Organization memory currentOrg;
+        uint256 currentOrgId;
 
-    //     return organizations;
-    // }
+        for (uint256 i = 0; i < _requestedRegistrationArray.length; i++) {
+            currentOrgId = _requestedRegistrationArray[i];
+            if (currentOrgId != 0) {
+                currentOrg = _organizationData[currentOrgId];
+                organizations[i] = currentOrg;
+            }
+        }
+
+        return organizations;
+    }
 
     function getMyData() public view returns (Organization memory) {
+        require(
+            bytes(_organizationData[_addressToId[msg.sender]].id).length > 0,
+            "ORGANIZATION AUTHENTICATOR: You do not have registered data."
+        );
         return _organizationData[_addressToId[msg.sender]];
     }
 
@@ -112,16 +125,24 @@ contract OrganizationAuthenticator is Ownable {
         return _registeredAmount.current();
     }
 
-    function mapLength(
-        mapping(uint256 => bool) storage _map
-    ) private view returns (uint256) {
-        uint256 count = 0;
-        for (uint256 i = 1; i <= 2 ** 256 - 1; i++) {
-            // iterate over all possible uint256 keys
-            if (_map[i]) {
-                count++;
-            }
-        }
-        return count;
-    }
+    // function removeOrgAtIndex(uint256 _orgId) internal {
+    //     require(_orgId < _requestedRegistrationArray.length, "Invalid index");
+
+    //     uint256 orgIndex;
+    //     for (uint256 i = 0; i < _requestedRegistrationArray.length; i++) {
+    //         if (_requestedRegistrationArray[i] == _orgId) {
+    //             orgIndex = i;
+    //         }
+    //     }
+
+    //     for (
+    //         uint256 i = orgIndex;
+    //         i < _requestedRegistrationArray.length - 1;
+    //         i++
+    //     ) {
+    //         _requestedRegistrationArray[i] = _requestedRegistrationArray[i + 1];
+    //     }
+
+    //     _requestedRegistrationArray.pop();
+    // }
 }

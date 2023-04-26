@@ -35,7 +35,7 @@ contract("OrganizationAuthenticator", (accounts) => {
       creation_right: false,
     };
 
-    const res = await organizationAuthenticatorInstance.request_registration(
+    const res = await organizationAuthenticatorInstance.requestRegistration(
       organizationData,
       {
         from: accounts[0],
@@ -45,10 +45,10 @@ contract("OrganizationAuthenticator", (accounts) => {
     expect(res.receipt.status).to.be.true;
   });
 
-  it("should be registered after requested registration", async () => {
+  it("should be not registered after requested registration", async () => {
     const authenticated =
       await organizationAuthenticatorInstance.authenticate.call(accounts[0]);
-    expect(authenticated).to.be.true;
+    expect(authenticated).to.be.false;
   });
 
   it("should allow to retrieve own organization data", async () => {
@@ -62,14 +62,13 @@ contract("OrganizationAuthenticator", (accounts) => {
     const registered =
       await organizationAuthenticatorInstance.amIRegistered.call();
 
-    expect(registered).to.be.true;
+    expect(registered).to.be.false;
   });
 
-  // it("should retrieving all requested registrations", async () => {
-  //   const requestedRegistration =
-  //     await organizationAuthenticatorInstance.getRequestedRegistrations.call();
-  //   console.log(requestedRegistration);
-  // });
+  it("should retrieving all requested registrations", async () => {
+    const requestedRegistration =
+      await organizationAuthenticatorInstance.getRequestedRegistrations.call();
+  });
 
   // it("should allow the acceptance of requested registration", async () => {
   //   const authenticated =
