@@ -60,14 +60,17 @@ contract Speck is ERC721 {
     )
         public
         view
-        returns (Product[] memory, uint256[] memory, address[] memory)
+        returns (Product[] memory, uint256[] memory, address[] memory, uint256)
     {
-        Product[] memory products = new Product[](_token_ids.length);
-        uint256[] memory tokenIds = new uint256[](_token_ids.length);
-        address[] memory owners = new address[](_token_ids.length);
+        uint256 tokenIdAmount = _token_ids.length;
+
+        Product[] memory products = new Product[](tokenIdAmount);
+        uint256[] memory tokenIds = new uint256[](tokenIdAmount);
+        address[] memory owners = new address[](tokenIdAmount);
 
         uint256 currentTokenId;
-        for (uint256 i = 0; i < _token_ids.length; i++) {
+
+        for (uint256 i = 0; i < tokenIdAmount; i++) {
             currentTokenId = _token_ids[i];
             require(
                 bytes(_products[currentTokenId].id).length > 0,
@@ -78,7 +81,7 @@ contract Speck is ERC721 {
             owners[i] = ownerOf(currentTokenId);
         }
 
-        return (products, tokenIds, owners);
+        return (products, tokenIds, owners, tokenIdAmount);
     }
 
     function getProductHistory(
@@ -86,7 +89,7 @@ contract Speck is ERC721 {
     )
         public
         view
-        returns (Product[] memory, uint256[] memory, address[] memory)
+        returns (Product[] memory, uint256[] memory, address[] memory, uint256)
     {
         require(
             bytes(_products[_tokenId].id).length > 0,
@@ -115,7 +118,7 @@ contract Speck is ERC721 {
             index++;
         }
 
-        return (products, tokenIds, owners);
+        return (products, tokenIds, owners, index);
     }
 
     function totalProductAmount() public view returns (uint256) {

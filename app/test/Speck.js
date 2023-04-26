@@ -2,7 +2,7 @@ const Speck = artifacts.require("./Speck.sol");
 const {
   transformSingleProductArray,
   transformProductsArray,
-} = require("../client/src/utils/helpers.js");
+} = require("../utils/helpers.js");
 
 contract("Speck", (accounts) => {
   let speckInstance;
@@ -37,13 +37,6 @@ contract("Speck", (accounts) => {
     expect(res.receipt.status).to.be.true;
   });
 
-  it("should have a total amount of tokens greater than 0", async () => {
-    const totalTokenAmount = (
-      await speckInstance.totalProductAmount.call()
-    ).toNumber();
-    expect(totalTokenAmount).to.be.above(0);
-  });
-
   it("should allow to retrieve the new product data", async () => {
     let productData = await speckInstance.getProductData.call(1);
     productData = transformSingleProductArray(productData);
@@ -76,6 +69,32 @@ contract("Speck", (accounts) => {
     tokenId = res.logs[0].args[2].toNumber();
   });
 
+  it("should allow to add a separate product not connected to any product", async () => {
+    const productData = {
+      id: "Peter1",
+      rfid: "A934B",
+      genetics:
+        "GAAACGCGCCCAACTGACGCTAGGCAAGTCAGTGCAGGCTCCCGTGTTAGGATAAGGGTAAACATACAAGTCGATAGAAGATGGGTAGGGGCCTTCAATT",
+      gender: 0,
+      slaughter_method: 1,
+      findings: "",
+      ph_value: 6,
+      previous_product: 0,
+      product_type: "Pig",
+      animal_weight_g: 16000,
+      fat_percentage: 17,
+      feed: "Corn",
+      medication: "",
+      timestamp: getCurrentTime(),
+    };
+
+    const res = await speckInstance.createNewProduct(productData, {
+      from: accounts[0],
+    });
+
+    tokenId = res.logs[0].args[2].toNumber();
+  });
+
   it("should allow to retrieve the product history of the last product", async () => {
     let productsHistory = await speckInstance.getProductHistory.call(2);
     productsHistory = transformProductsArray(productsHistory);
@@ -84,8 +103,16 @@ contract("Speck", (accounts) => {
 
   it("should allow to retrieve multiple products at once", async () => {
     let productsData = await speckInstance.getMultipleProductData.call([1, 2]);
+    console.log("==============Product 1 2=============");
     productsData = transformProductsArray(productsData);
     expect(productsData).to.not.be.empty;
+  });
+
+  it("should have a total amount of tokens of 3", async () => {
+    const totalTokenAmount = (
+      await speckInstance.totalProductAmount.call()
+    ).toNumber();
+    expect(totalTokenAmount).to.be.equal(3);
   });
 });
 
