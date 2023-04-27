@@ -21,6 +21,7 @@ contract Speck is ERC721 {
     }
 
     OrganizationAuthenticator private _organizationAuthenticator;
+
     struct Product {
         string id;
         string rfid;
@@ -184,5 +185,9 @@ contract Speck is ERC721 {
 
     function totalProductAmount() public view returns (uint256) {
         return _tokenIds.current();
+    }
+
+    function getOwnerOf(uint256 _tokenId) public view returns (address) {
+        return ownerOf(_tokenId);
     }
 }
