@@ -25,7 +25,7 @@ function useTransformProductData(data) {
 
 function useTransformProductDatas(data) {
   const result = [];
-  const productsLength = data[3].toNumber();
+  const productsLength = data[1].length;
 
   for (let i = 0; i < productsLength; i++) {
     const productData = data[0][i];

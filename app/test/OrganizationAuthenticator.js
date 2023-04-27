@@ -45,7 +45,7 @@ contract("OrganizationAuthenticator", (accounts) => {
     expect(res.receipt.status).to.be.true;
   });
 
-  it("should be not registered after requested registration", async () => {
+  it("should be not be registered after requested registration", async () => {
     const authenticated =
       await organizationAuthenticatorInstance.authenticate.call(accounts[0]);
     expect(authenticated).to.be.false;
@@ -65,14 +65,29 @@ contract("OrganizationAuthenticator", (accounts) => {
     expect(registered).to.be.false;
   });
 
-  it("should retrieving all requested registrations", async () => {
+  it("should retrieve all requested registrations", async () => {
     const requestedRegistration =
       await organizationAuthenticatorInstance.getRequestedRegistrations.call();
+
+    expect(requestedRegistration.length).to.be.greaterThan(0);
   });
 
-  // it("should allow the acceptance of requested registration", async () => {
-  //   const authenticated =
-  //     await organizationAuthenticatorInstance.authenticate.call();
-  //   expect(authenticated).to.be.false;
-  // });
+  it("should allow to accept of requested registration", async () => {
+    const registered = await organizationAuthenticatorInstance.register(1, {
+      from: accounts[0],
+    });
+    expect(registered.receipt.status).to.be.true;
+  });
+
+  it("should have removed registration request after register", async () => {
+    const requestedRegistration =
+      await organizationAuthenticatorInstance.getRequestedRegistrations.call();
+    expect(requestedRegistration.length).to.be.equal(0);
+  });
+
+  it("should return authenticated", async () => {
+    const authenticated =
+      await organizationAuthenticatorInstance.authenticate.call(accounts[0]);
+    expect(authenticated).to.be.true;
+  });
 });

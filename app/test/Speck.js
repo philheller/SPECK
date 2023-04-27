@@ -67,6 +67,7 @@ contract("Speck", (accounts) => {
     });
 
     tokenId = res.logs[0].args[2].toNumber();
+    expect(res.receipt.status).to.be.true;
   });
 
   it("should allow to add a separate product not connected to any product", async () => {
@@ -93,6 +94,7 @@ contract("Speck", (accounts) => {
     });
 
     tokenId = res.logs[0].args[2].toNumber();
+    expect(res.receipt.status).to.be.true;
   });
 
   it("should allow to retrieve the product history of the last product", async () => {
