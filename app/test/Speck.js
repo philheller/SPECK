@@ -2,12 +2,7 @@ const Speck = artifacts.require("./Speck.sol");
 const {
   useTransformProductData,
   useTransformProductDatas,
-} = require("../utils/helpers.js");
-
-// const {
-//   useTransformProductData,
-//   useTransformProductDatas,
-// } = require("../client/src/hooks/useTransformContractData.ts");
+} = require("./utils/helpers.js");
 
 contract("Speck", (accounts) => {
   let speckInstance;
@@ -124,6 +119,65 @@ contract("Speck", (accounts) => {
       await speckInstance.getProductData.call(999999);
     } catch (error) {
       expect(error.message).to.include("ERC721: invalid token ID");
+    }
+  });
+
+  it("should allow transfer of product", async () => {
+    const productData = {
+      id: "ABC123",
+      rfid: "TestRFID",
+      genetics:
+        "GAAACGCGCCCAACTGACGCTAGGCAAGTCAGTGCAGGCTCCCGTGTTAGGATAAGGGTAAACATACAAGTCGATAGAAGATGGGTAGGGGCCTTCAATT",
+      gender: 1,
+      slaughter_method: 2,
+      findings: "",
+      ph_value: 7,
+      previous_product: 0,
+      product_type: "Pig",
+      animal_weight_g: 40000,
+      fat_percentage: 20,
+      feed: "Corn",
+      medication: "Iboprofen",
+      timestamp: getCurrentTime(),
+    };
+
+    const res = await speckInstance.transferProduct(productData, accounts[1], {
+      from: accounts[0],
+    });
+
+    expect(res.receipt.status).to.be.true;
+
+    const owner = await speckInstance.getOwnerOf.call(4);
+    expect(owner).to.be.equal(accounts[1]);
+  });
+
+  it("should not allow to append to product that is not owned ", async () => {
+    const productData = {
+      id: "ABC123",
+      rfid: "TestRFID",
+      genetics:
+        "GAAACGCGCCCAACTGACGCTAGGCAAGTCAGTGCAGGCTCCCGTGTTAGGATAAGGGTAAACATACAAGTCGATAGAAGATGGGTAGGGGCCTTCAATT",
+      gender: 1,
+      slaughter_method: 2,
+      findings: "",
+      ph_value: 7,
+      previous_product: 4,
+      product_type: "Pig",
+      animal_weight_g: 50000,
+      fat_percentage: 30,
+      feed: "Corn",
+      medication: "Paracetamol",
+      timestamp: getCurrentTime(),
+    };
+
+    try {
+      await speckInstance.createNewProduct(productData, {
+        from: accounts[0],
+      });
+    } catch (error) {
+      expect(error.message).to.include(
+        "SPECK: You are not the owner of the previous product."
+      );
     }
   });
 });
