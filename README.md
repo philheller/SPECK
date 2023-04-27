@@ -27,6 +27,10 @@
       - [Installation](#installation-3)
       - [Configuration](#configuration-2)
       - [Development](#development-3)
+    - [Clear chain](#clear-chain)
+    - [Migrate contracts](#migrate-contracts)
+    - [Reset Nonce index](#reset-nonce-index)
+    - [Reset local storage](#reset-local-storage)
 
 # SPECK Hackathon
 
@@ -334,3 +338,28 @@ npm install -g truffle
    ```
 
 You can now access the frontend at [http://localhost:3000](http://localhost:3000) (see shell output).
+
+### Clear chain
+
+> Clearing the chain from time to time may be a good idea.
+>
+> In Docker: `docker-compose down -v`
+> Running locally: Delete the instance and create a new one.
+
+If ganache is cleared and a fresh chain is started, there are a few things to remember:
+
+- [Migrate contracts](#migrate-contracts)
+- [Reset Nonce index](#reset-nonce-index)
+- [Reset local storage](#reset-local-storage)
+
+### Migrate contracts
+
+Don't forget to migrate the contracts to the new chain (see [Development (with Docker)](#development)/[Development (locally)](#development-3)).
+
+### Reset Nonce index
+
+If the volumes are unmounted or the local ganache instance is deleted and a new one started, the wallet may be out of sync. This can be fixed by resetting the wallet in the MetaMask settings (`settings`>`advanced`>`clear activity tab data`)
+
+### Reset local storage
+
+This specific project uses the browser's `localStorage` to keep track of products. If the ganache instance is restarted and the `localStorage` is not cleared, the products will be out of sync. This can be fixed by clearing the `localStorage` in the browser's developer tools.
