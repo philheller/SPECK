@@ -83,7 +83,7 @@ contract Speck is ERC721 {
     )
         public
         view
-        returns (Product[] memory, uint256[] memory, address[] memory, uint256)
+        returns (Product[] memory, uint256[] memory, address[] memory)
     {
         uint256 tokenIdAmount = _token_ids.length;
 
@@ -104,7 +104,7 @@ contract Speck is ERC721 {
             owners[i] = ownerOf(currentTokenId);
         }
 
-        return (products, tokenIds, owners, tokenIdAmount);
+        return (products, tokenIds, owners);
     }
 
     function getProductHistory(
@@ -112,16 +112,16 @@ contract Speck is ERC721 {
     )
         public
         view
-        returns (Product[] memory, uint256[] memory, address[] memory, uint256)
+        returns (Product[] memory, uint256[] memory, address[] memory)
     {
         require(
             bytes(_products[_tokenId].id).length > 0,
-            "Speck: Product-ID does not exist."
+            "SPECK: Product-ID does not exist."
         );
-        uint256 totalAmount = totalProductAmount();
-        Product[] memory products = new Product[](totalAmount);
-        uint256[] memory tokenIds = new uint256[](totalAmount);
-        address[] memory owners = new address[](totalAmount);
+        uint256 arrayLength = getHistoryDepth(_tokenId, 0);
+        Product[] memory products = new Product[](arrayLength);
+        uint256[] memory tokenIds = new uint256[](arrayLength);
+        address[] memory owners = new address[](arrayLength);
 
         Product memory currentProduct = _products[_tokenId];
         products[0] = currentProduct;
@@ -141,7 +141,19 @@ contract Speck is ERC721 {
             index++;
         }
 
-        return (products, tokenIds, owners, index);
+        return (products, tokenIds, owners);
+    }
+
+    function getHistoryDepth(
+        uint256 _tokenId,
+        uint8 _counter
+    ) internal view returns (uint8) {
+        _counter++;
+        Product memory currentProduct = _products[_tokenId];
+        if (currentProduct.previous_product == 0) {
+            return _counter;
+        }
+        return getHistoryDepth(currentProduct.previous_product, _counter);
     }
 
     function totalProductAmount() public view returns (uint256) {

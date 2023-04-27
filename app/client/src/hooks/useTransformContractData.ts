@@ -78,10 +78,10 @@ const transformProduct = (data: [ProductDataSnakeCase, BigNumber, string]) =>
   toProduct(...data);
 
 function transformProducts(
-  data: [ProductDataSnakeCase[], BigNumber[], string[], BigNumber]
+  data: [ProductDataSnakeCase[], BigNumber[], string[]]
 ) {
   const result = [];
-  const productsLength = data[3].toNumber();
+  const productsLength = data[1].length;
 
   for (let i = 0; i < productsLength; i++) {
     const product = toProduct(data[0][i], data[1][i], data[2][i]);
