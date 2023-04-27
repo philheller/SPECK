@@ -1,6 +1,10 @@
 const OrganizationAuthenticator = artifacts.require(
   "./OrganizationAuthenticator.sol"
 );
+const {
+  useTransformOrganizationData,
+  useTransformOrganizationsData,
+} = require("./utils/organizationAuthenticatorHelper.js");
 
 contract("OrganizationAuthenticator", (accounts) => {
   let organizationAuthenticatorInstance;
@@ -52,9 +56,10 @@ contract("OrganizationAuthenticator", (accounts) => {
   });
 
   it("should allow to retrieve own organization data", async () => {
-    const organizationData =
+    let organizationData =
       await organizationAuthenticatorInstance.getMyData.call();
 
+    organizationData = useTransformOrganizationData(organizationData);
     expect(organizationData).to.not.be.empty;
   });
 
@@ -66,9 +71,13 @@ contract("OrganizationAuthenticator", (accounts) => {
   });
 
   it("should retrieve all requested registrations", async () => {
-    const requestedRegistration =
+    let requestedRegistration =
       await organizationAuthenticatorInstance.getRequestedRegistrations.call();
 
+    requestedRegistration = useTransformOrganizationsData(
+      requestedRegistration
+    );
+    console.log(requestedRegistration);
     expect(requestedRegistration.length).to.be.greaterThan(0);
   });
 

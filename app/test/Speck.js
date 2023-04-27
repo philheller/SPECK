@@ -2,7 +2,7 @@ const Speck = artifacts.require("./Speck.sol");
 const {
   useTransformProductData,
   useTransformProductDatas,
-} = require("./utils/helpers.js");
+} = require("./utils/speckHelper.js");
 
 contract("Speck", (accounts) => {
   let speckInstance;

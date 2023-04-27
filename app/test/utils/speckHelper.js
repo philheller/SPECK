@@ -57,31 +57,6 @@ function useTransformProductDatas(data) {
   return result;
 }
 
-// function transformSingleOrganizationArray(data) {
-//   const organizationDataFromArray = data[0];
-
-//   const productData = {
-//     token_id: data[1].toNumber(),
-//     owner: data[2],
-//     id: organizationDataFromArray.id,
-//     rfid: organizationDataFromArray.rfid,
-//     genetics: organizationDataFromArray.rfid,
-//     gender: organizationDataFromArray.gender,
-//     slaughter_method: organizationDataFromArray.slaughter_method,
-//     findings: organizationDataFromArray.findings,
-//     ph_value: organizationDataFromArray.ph_value,
-//     previous_product: organizationDataFromArray.previous_product,
-//     product_type: organizationDataFromArray.product_type,
-//     animal_weight_g: organizationDataFromArray.animal_weight_g,
-//     fat_percentage: organizationDataFromArray.fat_percentage,
-//     feed: organizationDataFromArray.feed,
-//     medication: organizationDataFromArray.medication,
-//     timestamp: organizationDataFromArray.timestamp,
-//   };
-
-//   return productData;
-// }
-
 module.exports = {
   useTransformProductData,
   useTransformProductDatas,
