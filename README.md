@@ -362,4 +362,4 @@ If the volumes are unmounted or the local ganache instance is deleted and a new 
 
 ### Reset local storage
 
-This specific project uses the browser's `localStorage` to keep track of products. If the ganache instance is restarted and the `localStorage` is not cleared, the products will be out of sync. This can be fixed by clearing the `localStorage` in the browser's developer tools.
+This specific project uses the browser's `localStorage` to keep track of products. If the ganache instance is restarted and the `localStorage` is not cleared, the products will be out of sync. Wagmi may also use `localStorage` for request hashing. This can be fixed by clearing the `localStorage` in the browser's developer tools.
