@@ -14,14 +14,12 @@ contract OrganizationAuthenticator is Ownable {
     event Authenticate(string _msg);
     event Register(string _msg);
 
-    uint256 private next_id;
-
     mapping(uint256 => bool) private _authenticated;
     mapping(uint256 => Organization) private _organizationData;
     mapping(uint256 => bool) private _requestedRegistration;
     mapping(address => uint256) private _addressToId;
 
-    uint256[] _requestedRegistrationArray;
+    uint256[] private _requestedRegistrationArray;
 
     struct Organization {
         string id;
@@ -41,7 +39,7 @@ contract OrganizationAuthenticator is Ownable {
         bool creation_right;
     }
 
-    constructor() {}
+    // constructor() {}
 
     function authenticate(address _address) public view returns (bool) {
         return authenticateById(_addressToId[_address]);
@@ -76,7 +74,7 @@ contract OrganizationAuthenticator is Ownable {
         _authenticated[_orgId] = true;
         _requestAmount.decrement();
         _requestedRegistration[_orgId] = false;
-        // removeOrgAtIndex(_orgId);
+        removeRequestIndex(_orgId);
     }
 
     function getRequestedRegistrations()
@@ -125,13 +123,30 @@ contract OrganizationAuthenticator is Ownable {
         return _registeredAmount.current();
     }
 
-    // function removeOrgAtIndex(uint256 _orgId) internal {
-    //     require(_orgId < _requestedRegistrationArray.length, "Invalid index");
+    function removeRequestIndex(
+        uint256 _orgIndex
+    ) public returns (uint256[] memory) {
+        uint256[] memory tempArray = new uint256[](
+            _requestedRegistrationArray.length - 1
+        );
 
+        for (uint256 i = 0; i < _requestedRegistrationArray.length; i++) {
+            if (_requestedRegistrationArray[i] != _orgIndex) {
+                tempArray[i] = _requestedRegistrationArray[i];
+            }
+        }
+
+        _requestedRegistrationArray = tempArray;
+
+        return _requestedRegistrationArray;
+    }
+
+    // function removeRequestIndex(uint256 _orgId) internal {
     //     uint256 orgIndex;
     //     for (uint256 i = 0; i < _requestedRegistrationArray.length; i++) {
     //         if (_requestedRegistrationArray[i] == _orgId) {
     //             orgIndex = i;
+    //             break;
     //         }
     //     }
 
@@ -142,7 +157,6 @@ contract OrganizationAuthenticator is Ownable {
     //     ) {
     //         _requestedRegistrationArray[i] = _requestedRegistrationArray[i + 1];
     //     }
-
     //     _requestedRegistrationArray.pop();
     // }
 }
