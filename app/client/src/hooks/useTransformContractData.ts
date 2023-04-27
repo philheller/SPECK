@@ -3,12 +3,12 @@ import type { Product, ProductDataSnakeCase } from "@/interfaces/Product";
 import { useEffect, useState } from "react";
 
 const useTransformProductData = (
-  data: [ProductDataSnakeCase, BigNumber, string]
+  data: [ProductDataSnakeCase, BigNumber, string] | null
 ) => {
-  const [transformedData, setTransformedData] = useState<Product>();
+  const [transformedData, setTransformedData] = useState<Product | null>(null);
 
   useEffect(() => {
-    if (!data) return;
+    if (!data || !data.length) return;
     setTransformedData(transformProduct(data));
   }, [data]);
 
@@ -16,13 +16,16 @@ const useTransformProductData = (
 };
 
 const useTransformProductDatas = (
-  data: [ProductDataSnakeCase[], BigNumber[], string[]]
+  data: [ProductDataSnakeCase[], BigNumber[], string[]] | null
 ) => {
-  const [transformedData, setTransformedData] = useState<Product[]>();
+  const [transformedData, setTransformedData] = useState<Product[] | null>(
+    null
+  );
 
   useEffect(() => {
-    console.log("transforming this data: ", data);
-    if (!data) return;
+    if (!data || !data.length || !data[0].length) return;
+    console.log(data[0], data[0].length);
+    console.log("transforming this data:", data);
     setTransformedData(transformProducts(data));
   }, [data]);
 

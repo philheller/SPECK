@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import {
   MagnifyingGlassCircleIcon,
   XCircleIcon,
-  BookmarkIcon,
 } from "@heroicons/react/24/solid";
 import useLocalProductStorage from "@/hooks/useLocalProductStorage";
+import FullProductCard from "@/components/Product/FullProductCard";
 // accessiblity
 import * as Label from "@radix-ui/react-label";
 // web3
@@ -14,13 +14,21 @@ import useHydrationsafeCall from "@/hooks/useHydrationSafeCall";
 import { useContractRead } from "wagmi";
 import SpeckContract from "@/contracts/Speck.json";
 import Spinner from "@/components/Loading/Spinner";
-import Card from "@/components/Card";
+import { Product, ProductDataSnakeCase } from "@/interfaces/Product";
+import { useTransformProductData } from "@/hooks/useTransformContractData";
+import { BigNumber } from "ethers";
 
 const index = () => {
   const isHydrationSafe = useHydrationsafeCall();
   const [id, setId] = useState("");
 
-  const { data, error, isLoading, isSuccess, refetch } = useContractRead({
+  const {
+    data: rawData,
+    error,
+    isLoading,
+    isSuccess,
+    refetch,
+  } = useContractRead({
     address: SpeckContract.networks[1337].address as `0x${string}`,
     abi: SpeckContract.abi,
     functionName: "getProductData",
@@ -33,20 +41,15 @@ const index = () => {
     refetch();
   };
 
-  // const [storedValue, saveItem] = useLocalStorage<number[]>("bookmarked", null);
-  const { storedValue, toggleProduct } = useLocalProductStorage();
+  const { storedValue, clearProducts } = useLocalProductStorage();
+
+  const data = useTransformProductData(
+    rawData as [ProductDataSnakeCase, BigNumber, string] | null
+  );
 
   useEffect(() => {
     console.log("detected data: ", data);
   }, [data]);
-
-  const handleBookmarkProduct = (e: any, tokenId: number) => {
-    e.preventDefault();
-
-    console.log("Attempting to toggle", tokenId);
-
-    toggleProduct({ tokenId, date: new Date().toISOString() });
-  };
 
   return (
     <DefaultPaddingXnY>
@@ -88,12 +91,34 @@ const index = () => {
           </div>
         </div>
       </form>
+      {/* <div className="my-3 text-gray-600 dark:text-gray-400">
+        // todo delete
+        <div>
+          Currently tracking:
+          {isHydrationSafe ? (
+            <span className="px-1 md:px-2">{storedValue.length}</span>
+          ) : (
+            <span className="inline-block w-3 px-1 md:w-4 md:px-2">
+              <Spinner />
+            </span>
+          )}
+          products
+        </div>
+        <button
+          className={`mt-2 rounded-md bg-amber-600 px-3 py-2 text-black disabled:bg-gray-400`}
+          type="button"
+          disabled={isLoading}
+          onClick={() => clearProducts()}
+        >
+          Clear Products 🧹
+        </button>
+      </div> */}
       {isHydrationSafe && (
         <section className="mt-6">
           <h3>
             Results
             {isLoading && (
-              <span className="h-4 w-4">
+              <span className="ml-2 inline-block w-4 md:ml-3">
                 <Spinner />
               </span>
             )}
@@ -112,41 +137,42 @@ const index = () => {
                 </p>
               </div>
             ) : (
-              <Card className="bg-gray-300 p-3 shadow-md dark:bg-gray-700 md:p-5">
-                <h3 className="flex justify-between">
-                  <span>This is a card</span>
-                  <button
-                    className={` ${
-                      // @ts-ignore
-                      storedValue.some((product) => product.tokenId == id)
-                        ? "text-gray-900 dark:text-gray-100"
-                        : "text-gray-500 dark:text-gray-500"
-                    }`}
-                    onClick={
-                      // @ts-ignore
-                      (e) => handleBookmarkProduct(e, id)
-                    }
-                  >
-                    <BookmarkIcon className="w-4 md:w-5" />
-                  </button>
-                </h3>
-                <p>This card will show details of the product</p>
-                {/* {
-                  // todo this will be changed to object eventually
-                  data.map((product) => {
-                    return (
-                      <div key={product.id}>
-                      <p>{product.id}</p>
-                      <p>{product.name}</p>
-                      <p>{product.description}</p>
-                      <p>{product.price}</p>
-                      <p>{product.image}</p>
-                      <p>{product.owner}</p>
-                      </div>
-                      );
-                    })
-                } */}
-              </Card>
+              <FullProductCard product={data as Product} className="" />
+              // <Card className="bg-gray-300 p-3 shadow-md dark:bg-gray-700 md:p-5">
+              //   <h3 className="flex justify-between">
+              //     <span>This is a card</span>
+              //     <button
+              //       className={` ${
+              //         // @ts-ignore
+              //         storedValue.some((product) => product.tokenId == id)
+              //           ? "text-gray-900 dark:text-gray-100"
+              //           : "text-gray-500 dark:text-gray-500"
+              //       }`}
+              //       onClick={
+              //         // @ts-ignore
+              //         (e) => handleBookmarkProduct(e, id)
+              //       }
+              //     >
+              //       <BookmarkIcon className="w-4 md:w-5" />
+              //     </button>
+              //   </h3>
+              //   <p>This card will show details of the product</p>
+              //   {/* {
+              //     // todo this will be changed to object eventually
+              //     data.map((product) => {
+              //       return (
+              //         <div key={product.id}>
+              //         <p>{product.id}</p>
+              //         <p>{product.name}</p>
+              //         <p>{product.description}</p>
+              //         <p>{product.price}</p>
+              //         <p>{product.image}</p>
+              //         <p>{product.owner}</p>
+              //         </div>
+              //         );
+              //       })
+              //   } */}
+              // </Card>
             )}
           </div>
         </section>

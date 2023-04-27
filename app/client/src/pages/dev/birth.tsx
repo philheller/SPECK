@@ -4,6 +4,7 @@ import Link from "next/link";
 import DefaultPaddingXnY from "@/components/Layout/DefaultPaddingXnY";
 import Head from "next/head";
 import { XCircleIcon } from "@heroicons/react/24/solid";
+import useLocalProductStorage from "@/hooks/useLocalProductStorage";
 // accessiblity
 import * as Label from "@radix-ui/react-label";
 // web3
@@ -17,32 +18,32 @@ import {
 import ContractJson from "@/contracts/Speck.json";
 import { useRandomProduct } from "@/hooks/useRandomProduct";
 
+const exampleTypes = [
+  "Schnitzel",
+  "Pork",
+  "Steak",
+  "Bacon",
+  "Ham",
+  "Sausage",
+  "Pork Belly",
+  "Pork Chop",
+  "Pork Loin",
+  "Pork Ribs",
+  "Pork Shoulder",
+  "Pork Tenderloin",
+];
+
 const birth = () => {
   const [bornTokenId, setBornTokenId] = useState("");
   const [toBeBornType, setToBeBornType] = useState(
-    [
-      "Schnitzel",
-      "Pork",
-      "Steak",
-      "Bacon",
-      "Ham",
-      "Sausage",
-      "Pork Belly",
-      "Pork Chop",
-      "Pork Loin",
-      "Pork Ribs",
-      "Pork Shoulder",
-      "Pork Tenderloin",
-    ].at(Math.floor(Math.random() * 12)) || "Döner"
+    exampleTypes.at(Math.floor(Math.random() * 12)) || "Döner"
   );
   const [waitingForEvent, setWaitingForEvent] = useState(true);
 
   const { randomProduct, recreateRandomProduct } =
     useRandomProduct(toBeBornType);
 
-  useEffect(() => {
-    console.log(randomProduct);
-  }, [randomProduct]);
+  const { clearProducts } = useLocalProductStorage();
 
   const isHydrationSafe = useHydrationSafeCall();
   const { config } = usePrepareContractWrite({
@@ -84,10 +85,13 @@ const birth = () => {
 
   const handleBirth = async (e: any) => {
     e.preventDefault();
-    console.log("recreateRandomProduct(", recreateRandomProduct());
     recreateRandomProduct();
     write?.();
     setWaitingForEvent(true);
+  };
+
+  const handleRandomizePig = () => {
+    setToBeBornType(exampleTypes.at(Math.floor(Math.random() * 12)) || "Döner");
   };
 
   const ifHydrationSafe = (
@@ -134,14 +138,26 @@ const birth = () => {
             className={`rounded-md bg-gray-400 px-3 py-2 text-black disabled:bg-gray-400`}
             type="button"
             disabled={isLoading}
-            onClick={() => recreateRandomProduct()}
+            onClick={() => handleRandomizePig()}
           >
             Randomize Pig 👀
           </button>
+          <button
+            className={`rounded-md bg-amber-600 px-3 py-2 text-black disabled:bg-gray-400`}
+            type="button"
+            disabled={isLoading}
+            onClick={() => clearProducts()}
+          >
+            Clear Products 🧹
+          </button>
         </div>
       </form>
-      {isLoading && <p> Loading... </p>}
-      {isError && <p> Error: {error?.message} </p>}
+      {isLoading && (
+        <div className="mt-4 w-4 md:w-5">
+          <Spinner />
+        </div>
+      )}
+      {isError && <p className="mt-4"> Error: {error?.message} </p>}
       {isSuccess && (
         <div>
           <h3 className="mt-4">Success!</h3>
@@ -157,7 +173,7 @@ const birth = () => {
           </p>
           <p>To see the pig data, visit:</p>
           {waitingForEvent ? (
-            <div className="flex items-center justify-center">
+            <div className="flex items-center">
               <div className="h-5 w-5">
                 <Spinner />
               </div>

@@ -10,7 +10,7 @@ import {
   ClockIcon,
   PlusCircleIcon,
   ExclamationCircleIcon,
-  XCircleIcon,
+  BookmarkIcon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
 // web3
@@ -45,7 +45,7 @@ export default function Home() {
   }, [storedValue]);
 
   const data = useTransformProductDatas(
-    rawData as [ProductDataSnakeCase[], BigNumber[], string[]]
+    rawData as [ProductDataSnakeCase[], BigNumber[], string[]] | null
   );
 
   return (
@@ -61,7 +61,7 @@ export default function Home() {
         <h2>Overview Products</h2>
         {isHydrationSafe ? (
           isLoading ? (
-            <div className="h-10 w-full">
+            <div className="flex h-10 w-full items-center justify-center">
               <div className="w-5">
                 <Spinner />
               </div>
@@ -78,7 +78,7 @@ export default function Home() {
               <p>{error.name}</p>
               <p>{error.message}</p>
             </div>
-          ) : data && data.length ? (
+          ) : data && data.length && storedValue && storedValue.length ? (
             <section className="grid grid-cols-2 items-stretch gap-4 md:grid-cols-3 xl:grid-cols-4">
               {data.map((product) => (
                 <Link
@@ -98,7 +98,7 @@ export default function Home() {
                           removeProduct({ tokenId: product.tokenId });
                         }}
                       >
-                        <XCircleIcon />
+                        <BookmarkIcon />
                       </button>
                     </h3>
                     <h4 className="font-normal">
