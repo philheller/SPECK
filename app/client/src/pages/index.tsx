@@ -37,7 +37,7 @@ export default function Home() {
     abi: SpeckContract.abi,
     functionName: "getMultipleProductData",
     args: [storedValue.map((product) => product.tokenId)],
-    enabled: !!storedValue && !storedValue.length,
+    enabled: !!storedValue && !!storedValue.length,
   });
 
   useEffect(() => {
