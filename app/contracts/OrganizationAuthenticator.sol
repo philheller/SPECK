@@ -14,12 +14,12 @@ contract OrganizationAuthenticator is Ownable {
     event Authenticate(string _msg);
     event Register(string _msg);
 
-    mapping(uint256 => bool) private _authenticated;
+    mapping(uint256 => bool) private _registered;
     mapping(uint256 => Organization) private _organizationData;
-    mapping(uint256 => bool) private _requestedRegistration;
+    mapping(uint256 => bool) private _registrationRequested;
     mapping(address => uint256) private _addressToId;
 
-    uint256[] private _requestedRegistrationArray;
+    uint256[] private _registrationRequestedArray;
 
     struct Organization {
         string id;
@@ -46,7 +46,7 @@ contract OrganizationAuthenticator is Ownable {
     }
 
     function authenticateById(uint256 _orgId) internal view returns (bool) {
-        return _authenticated[_orgId];
+        return _registered[_orgId];
     }
 
     function requestRegistration(Organization memory _data) public {
@@ -59,21 +59,21 @@ contract OrganizationAuthenticator is Ownable {
         uint256 newOrgId = _orgIds.current();
 
         _addressToId[msg.sender] = newOrgId;
-        _requestedRegistration[newOrgId] = true;
+        _registrationRequested[newOrgId] = true;
         _organizationData[newOrgId] = _data;
         _requestAmount.increment();
-        _requestedRegistrationArray.push(newOrgId);
+        _registrationRequestedArray.push(newOrgId);
     }
 
     function register(uint256 _orgId) public onlyOwner {
         require(
-            _requestedRegistration[_orgId] == true,
+            _registrationRequested[_orgId] == true,
             "ORGANIZATION AUTHENTICATOR: Organization ID does not have an active registration request."
         );
 
-        _authenticated[_orgId] = true;
+        _registered[_orgId] = true;
         _requestAmount.decrement();
-        _requestedRegistration[_orgId] = false;
+        _registrationRequested[_orgId] = false;
         removeRequestIndex(_orgId);
     }
 
@@ -90,8 +90,8 @@ contract OrganizationAuthenticator is Ownable {
         Organization memory currentOrg;
         uint256 currentOrgId;
 
-        for (uint256 i = 0; i < _requestedRegistrationArray.length; i++) {
-            currentOrgId = _requestedRegistrationArray[i];
+        for (uint256 i = 0; i < _registrationRequestedArray.length; i++) {
+            currentOrgId = _registrationRequestedArray[i];
             if (currentOrgId != 0) {
                 currentOrg = _organizationData[currentOrgId];
                 organizations[i] = currentOrg;
@@ -110,7 +110,7 @@ contract OrganizationAuthenticator is Ownable {
     }
 
     function amIRegistered() public view returns (bool) {
-        return _authenticated[_addressToId[msg.sender]];
+        return _registered[_addressToId[msg.sender]];
     }
 
     //TODO: SET TO INTERNAL
@@ -127,24 +127,24 @@ contract OrganizationAuthenticator is Ownable {
         uint256 _orgIndex
     ) public returns (uint256[] memory) {
         uint256[] memory tempArray = new uint256[](
-            _requestedRegistrationArray.length - 1
+            _registrationRequestedArray.length - 1
         );
 
-        for (uint256 i = 0; i < _requestedRegistrationArray.length; i++) {
-            if (_requestedRegistrationArray[i] != _orgIndex) {
-                tempArray[i] = _requestedRegistrationArray[i];
+        for (uint256 i = 0; i < _registrationRequestedArray.length; i++) {
+            if (_registrationRequestedArray[i] != _orgIndex) {
+                tempArray[i] = _registrationRequestedArray[i];
             }
         }
 
-        _requestedRegistrationArray = tempArray;
+        _registrationRequestedArray = tempArray;
 
-        return _requestedRegistrationArray;
+        return _registrationRequestedArray;
     }
 
     // function removeRequestIndex(uint256 _orgId) internal {
     //     uint256 orgIndex;
-    //     for (uint256 i = 0; i < _requestedRegistrationArray.length; i++) {
-    //         if (_requestedRegistrationArray[i] == _orgId) {
+    //     for (uint256 i = 0; i < _registrationRequestedArray.length; i++) {
+    //         if (_registrationRequestedArray[i] == _orgId) {
     //             orgIndex = i;
     //             break;
     //         }
@@ -152,11 +152,11 @@ contract OrganizationAuthenticator is Ownable {
 
     //     for (
     //         uint256 i = orgIndex;
-    //         i < _requestedRegistrationArray.length - 1;
+    //         i < _registrationRequestedArray.length - 1;
     //         i++
     //     ) {
-    //         _requestedRegistrationArray[i] = _requestedRegistrationArray[i + 1];
+    //         _registrationRequestedArray[i] = _registrationRequestedArray[i + 1];
     //     }
-    //     _requestedRegistrationArray.pop();
+    //     _registrationRequestedArray.pop();
     // }
 }
