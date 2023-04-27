@@ -48,19 +48,18 @@ contract Speck is ERC721 {
     function createNewProduct(
         Product memory _product_data
     ) public onlyRegistered {
-        // TODO: UNCOMMENT PREVIOUS PRODUCT CHECK AND OWNERSHIP CHECK
-        // if (_product_data.previous_product != 0) {
-        //     uint256 previousProductId = _product_data.previous_product;
-        // //     Check if previous product exists
-        //     require(
-        //         bytes(_products[previousProductId].id).length > 0,
-        //         "SPECK: Previous product does not exist"
-        //     );
-        //     require(
-        //         ownerOf(_product_data.previous_product) == msg.sender,
-        //         "SPECK: You are not the owner of the previous product."
-        //     );
-        // }
+        if (_product_data.previous_product != 0) {
+            uint256 previousProductId = _product_data.previous_product;
+            //     Check if previous product exists
+            require(
+                bytes(_products[previousProductId].id).length > 0,
+                "SPECK: Previous product does not exist."
+            );
+            require(
+                ownerOf(_product_data.previous_product) == msg.sender,
+                "SPECK: You are not the owner of the previous product."
+            );
+        }
 
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
@@ -69,6 +68,33 @@ contract Speck is ERC721 {
         _products[newItemId] = _product_data;
 
         emit NewProductCreated(newItemId, msg.sender);
+        return;
+    }
+
+    function transferProduct(
+        Product memory _product_data,
+        address _to
+    ) public onlyRegistered {
+        if (_product_data.previous_product != 0) {
+            uint256 previousProductId = _product_data.previous_product;
+            //     Check if previous product exists
+            require(
+                bytes(_products[previousProductId].id).length > 0,
+                "SPECK: Previous product does not exist"
+            );
+            require(
+                ownerOf(_product_data.previous_product) == msg.sender,
+                "SPECK: You are not the owner of the previous product."
+            );
+        }
+
+        _tokenIds.increment();
+        uint256 newItemId = _tokenIds.current();
+
+        _safeMint(_to, newItemId);
+        _products[newItemId] = _product_data;
+
+        emit NewProductCreated(newItemId, _to);
         return;
     }
 
