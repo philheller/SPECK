@@ -23,6 +23,7 @@ services:
       - "1337"
       - --hostname
       - "0.0.0.0"
+      - --gasLimit=0x9691b7
   truffle:
     container_name: truffle
     build:
