@@ -26,11 +26,11 @@ const Timeline = ({
           >
             <div
               className={`absolute left-1/2 ${
-                index === 0 ? "top-0" : "top-8"
+                index === 0 ? "md:top-2" : "top-8 md:top-10"
               } h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gray-500 ring-[0.5rem] ring-gray-200 dark:ring-gray-800`}
             />
           </div>
-          <div className="my-2 flex-1">
+          <div className="my-2 flex-1 md:my-4">
             <div className="relative">
               <div className="absolute top-2 h-0 w-0 border-b-[1rem] border-r-[1rem] border-t-[1rem] border-solid border-gray-300 border-b-transparent border-t-transparent dark:border-r-gray-700" />
               <Card className="ml-3 bg-gray-300 p-3 dark:bg-gray-700 md:p-5">
