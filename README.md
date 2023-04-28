@@ -27,7 +27,7 @@
       - [Installation](#installation-3)
       - [Configuration](#configuration-2)
       - [Development](#development-3)
-    - [Clear chain](#clear-chain)
+      - [Clear chain](#clear-chain)
     - [Migrate contracts](#migrate-contracts)
     - [Reset Nonce index](#reset-nonce-index)
     - [Reset local storage](#reset-local-storage)
@@ -339,7 +339,7 @@ npm install -g truffle
 
 You can now access the frontend at [http://localhost:3000](http://localhost:3000) (see shell output).
 
-### Clear chain
+#### Clear chain
 
 > Clearing the chain from time to time may be a good idea.
 >
