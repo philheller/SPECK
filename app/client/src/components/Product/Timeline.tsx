@@ -76,7 +76,7 @@ const Timeline = ({
                     (Custody)
                   </h4>
                 </header>
-                <main className="flex flex-wrap gap-4 md:gap-8 lg:gap-14">
+                <main className="flex flex-wrap gap-3 md:gap-5 lg:gap-8">
                   <div className="my-2 flex-1 basis-52">
                     <h5 className="mb-1 text-base font-extrabold md:text-lg">
                       Data
