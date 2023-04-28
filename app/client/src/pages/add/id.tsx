@@ -138,41 +138,6 @@ const index = () => {
               </div>
             ) : (
               <FullProductCard product={data as Product} className="" />
-              // <Card className="bg-gray-300 p-3 shadow-md dark:bg-gray-700 md:p-5">
-              //   <h3 className="flex justify-between">
-              //     <span>This is a card</span>
-              //     <button
-              //       className={` ${
-              //         // @ts-ignore
-              //         storedValue.some((product) => product.tokenId == id)
-              //           ? "text-gray-900 dark:text-gray-100"
-              //           : "text-gray-500 dark:text-gray-500"
-              //       }`}
-              //       onClick={
-              //         // @ts-ignore
-              //         (e) => handleBookmarkProduct(e, id)
-              //       }
-              //     >
-              //       <BookmarkIcon className="w-4 md:w-5" />
-              //     </button>
-              //   </h3>
-              //   <p>This card will show details of the product</p>
-              //   {/* {
-              //     // todo this will be changed to object eventually
-              //     data.map((product) => {
-              //       return (
-              //         <div key={product.id}>
-              //         <p>{product.id}</p>
-              //         <p>{product.name}</p>
-              //         <p>{product.description}</p>
-              //         <p>{product.price}</p>
-              //         <p>{product.image}</p>
-              //         <p>{product.owner}</p>
-              //         </div>
-              //         );
-              //       })
-              //   } */}
-              // </Card>
             )}
           </div>
         </section>

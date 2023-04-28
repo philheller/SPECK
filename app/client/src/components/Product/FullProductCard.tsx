@@ -133,7 +133,7 @@ const FullProductCard = ({
           </div>
         )}
       </main>
-      <footer className="flex justify-center pt-4">
+      <footer className="flex justify-center pb-2 pt-4">
         <Link
           href={`/product/${product.tokenId}`}
           className="rounded bg-gray-800 px-2 py-1 font-bold text-gray-100 shadow-md dark:bg-gray-200 dark:text-gray-900"

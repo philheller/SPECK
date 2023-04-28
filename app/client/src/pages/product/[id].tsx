@@ -6,78 +6,75 @@ import Spinner from "@/components/Loading/Spinner";
 import useHydrationSafeCall from "@/hooks/useHydrationSafeCall";
 import { useContractRead } from "wagmi";
 import ContractJson from "@/contracts/Speck.json";
+import Head from "next/head";
+import { useTransformProductDatas } from "@/hooks/useTransformContractData";
+import type { ProductDataSnakeCase } from "@/interfaces/Product";
+import { BigNumber } from "ethers";
+import { useEffect } from "react";
+import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
+import Timeline from "@/components/Product/Timeline";
 
 const index = () => {
   const router = useRouter();
   const { id } = router.query;
   // todo change this to be a timeline and not necessarily card-like (no wrap)
 
-  // todo head
-
-  const products = [
-    {
-      id: 1,
-      name: "Product 1",
-      date: "2021-01-01",
-      description: "This is a product",
-      custodian: "Custodian 1",
-      enteredOn: "2021-01-01",
-      expiringOn: "2021-01-01",
-    },
-    {
-      id: 2,
-      name: "Product 2",
-      date: "2021-01-01",
-      description: "This is a product",
-      custodian: "Custodian 1",
-      enteredOn: "2021-01-01",
-      expiringOn: "2021-01-01",
-    },
-    {
-      id: 3,
-      name: "Product 3",
-      date: "2021-01-01",
-      description: "This is a product",
-      custodian: "Custodian 1",
-      enteredOn: "2021-01-01",
-      expiringOn: "2021-01-01",
-    },
-  ];
-
   const isHydrationSafe = useHydrationSafeCall();
-  const { data, error, isLoading, isSuccess } = useContractRead({
+  const {
+    data: rawData,
+    error,
+    isLoading,
+    isSuccess,
+  } = useContractRead({
     address: ContractJson.networks[1337].address as `0x${string}`,
     abi: ContractJson.abi,
-    functionName: "getProductData",
+    functionName: "getProductHistory",
     args: [id?.toString()],
+    enabled: !!id,
   });
+
+  const data = useTransformProductDatas(
+    rawData as [ProductDataSnakeCase[], BigNumber[], string[]] | null
+  );
+
+  useEffect(() => {
+    console.log("New data:", data);
+  }, [data]);
+  useEffect(() => {
+    console.log(isSuccess, data, data?.length);
+  }, [isSuccess, data]);
 
   return (
     <DefaultPaddingXnY>
+      <Head>
+        <title>Product #{id} 🪪</title>
+      </Head>
       <h2>Product #{id}</h2>
-      <section className="flex flex-col gap-3">
-        <h3>🚧 UI preview</h3>
-        {products.map((product) => (
-          <Card
-            key={product.id}
-            className="w-full p-4 shadow-[0.2rem_0.2rem_2rem_rgba(0,0,0,0.15),_0.1rem_0.1rem_0.4rem_rgba(0,0,0,0.2)] dark:bg-gray-700 dark:shadow-slate-900"
-          >
-            <h3 className="relative">
-              {product.name}
-              <span className="relative ml-6 text-sm font-extralight before:absolute before:-left-3 before:top-1/2 before:inline-block before:h-1 before:w-1 before:-translate-y-1/2 before:rounded-full before:bg-current before:content-['']">
-                {product.date}
-              </span>
-            </h3>
-          </Card>
-        ))}
-      </section>
 
       <section>
-        <h3 className="mt-5">🚧 Contract implementation</h3>
         {isHydrationSafe ? (
           <>
-            {isLoading && <p> Loading... </p>}
-            {isSuccess && <p>{JSON.stringify(data)}</p>}
+            {isLoading && (
+              <div className="flex justify-center">
+                <div className="w-4 md:w-5">
+                  <Spinner />
+                </div>
+              </div>
+            )}
+            {error && (
+              <div className="">
+                <h3 className="flex flex-nowrap items-center text-red-800 dark:text-red-400">
+                  <span className="mr-1 w-4 md:mr-2 md:w-5">
+                    <ExclamationCircleIcon className="w-4 sm:w-5" />
+                  </span>
+                  Error
+                </h3>
+                <h4>Something went wrong...</h4>
+                <p>{error.name}</p>
+                <p>{error.message}</p>
+              </div>
+            )}
+            {isSuccess && data && data.length && <Timeline products={data} />}
           </>
         ) : (
           <div className="flex items-center justify-center">

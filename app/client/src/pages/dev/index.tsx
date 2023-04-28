@@ -20,10 +20,9 @@ const index = () => {
           </Link>
         </li>
         <li>
-          <Link className="text-red-600 underline" href="/dev/change">
+          <Link className="underline" href="/dev/change">
             Change pig properties 🐗
-          </Link>{" "}
-          (coming soon)
+          </Link>
         </li>
         <li>
           <Link className="text-red-600 underline" href="/dev/ownership">

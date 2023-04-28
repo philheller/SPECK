@@ -11,7 +11,7 @@ const Nav = ({ className }: { className?: string }) => {
 
   return (
     <header
-      className={`w-100 flex items-center bg-gray-900 bg-opacity-95 text-sky-100 backdrop-blur-sm ${className}`}
+      className={`w-100 relative z-50 flex items-center bg-gray-900 bg-opacity-95 text-sky-100 backdrop-blur-sm ${className}`}
     >
       <DefaultPaddingX className="my-0 flex justify-between">
         <h1 className="mb-0 flex items-center font-mono text-base font-normal">
