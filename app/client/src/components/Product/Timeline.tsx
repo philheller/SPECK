@@ -81,7 +81,7 @@ const Timeline = ({
                     <h5 className="mb-1 text-base font-extrabold md:text-lg">
                       Data
                     </h5>
-                    <div className="grid grid-cols-2 dark:[&>*:nth-child(4n-2)]:bg-gray-800 dark:[&>*:nth-child(4n-3)]:bg-gray-800">
+                    <div className="grid grid-cols-2 [&>*:nth-child(4n-2)]:bg-gray-400 dark:[&>*:nth-child(4n-2)]:bg-gray-800 [&>*:nth-child(4n-3)]:bg-gray-400 dark:[&>*:nth-child(4n-3)]:bg-gray-800">
                       <div className="p-1 px-2 odd:rounded-l odd:font-bold even:justify-stretch even:rounded-r even:text-right">
                         ⚖️ Weight
                       </div>
@@ -130,7 +130,7 @@ const Timeline = ({
                     <h5 className="mb-1 text-center text-base font-extrabold md:text-lg">
                       Findings
                     </h5>
-                    <div className="relative h-full w-full rounded-lg border-2 border-solid border-gray-600 p-4">
+                    <div className="relative h-full w-full rounded-lg border-2 border-solid border-gray-400 p-4 dark:border-gray-600">
                       {product.findings.length > 0 ? (
                         <div className="max-h-48 overflow-y-auto">
                           {product.findings}
