@@ -30,10 +30,9 @@ const index = () => {
           </Link>
         </li>
         <li>
-          <Link className="text-red-600 underline" href="/dev/ownership">
-            Change ownership/custody of pig 📃
-          </Link>{" "}
-          (coming soon)
+          <Link className="underline" href="/dev/transfer">
+            Change ownership/custody of pig 🤝📃
+          </Link>
         </li>
       </ul>
     </DefaultPaddingXnY>
