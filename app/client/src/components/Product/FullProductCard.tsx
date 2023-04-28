@@ -17,9 +17,6 @@ const FullProductCard = ({
 
   const handleBookmarkProduct = (e: any, tokenId: number) => {
     e.preventDefault();
-
-    console.log("Attempting to toggle", tokenId);
-
     toggleProduct({ tokenId, date: new Date().toISOString() });
   };
 

@@ -51,7 +51,7 @@ export default function Home() {
   return (
     <DefaultPaddingXnY>
       <Head>
-        <title>Trace Speck 🐖</title>
+        <title>Trace Speck 🥓</title>
         <meta
           name="description"
           content="These are the products I have in my list."
@@ -84,9 +84,9 @@ export default function Home() {
                 <Link
                   key={product.tokenId}
                   href={`/product/${product.tokenId}`}
-                  className="w-full"
+                  className="w-full self-stretch"
                 >
-                  <Card className=" p-4 shadow-[0.2rem_0.2rem_2rem_rgba(0,0,0,0.15),_0.1rem_0.1rem_0.4rem_rgba(0,0,0,0.2)] dark:bg-gray-700 dark:shadow-slate-900">
+                  <Card className="h-full p-4 shadow-[0.2rem_0.2rem_2rem_rgba(0,0,0,0.15),_0.1rem_0.1rem_0.4rem_rgba(0,0,0,0.2)] dark:bg-gray-700 dark:shadow-slate-900">
                     <h3 className="-mb-1 flex flex-nowrap items-center justify-between text-xl">
                       <span>
                         {product.productType} #{product.tokenId}

@@ -1,7 +1,13 @@
-import Card from "@/components/Card";
+import { useEffect } from "react";
 import DefaultPaddingXnY from "@/components/Layout/DefaultPaddingXnY";
+import Timeline from "@/components/Product/Timeline";
 import { useRouter } from "next/router";
 import Spinner from "@/components/Loading/Spinner";
+import {
+  ExclamationCircleIcon,
+  BookmarkIcon,
+  ShareIcon,
+} from "@heroicons/react/24/solid";
 // web3
 import useHydrationSafeCall from "@/hooks/useHydrationSafeCall";
 import { useContractRead } from "wagmi";
@@ -9,15 +15,12 @@ import ContractJson from "@/contracts/Speck.json";
 import Head from "next/head";
 import { useTransformProductDatas } from "@/hooks/useTransformContractData";
 import type { ProductDataSnakeCase } from "@/interfaces/Product";
-import { BigNumber } from "ethers";
-import { useEffect } from "react";
-import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
-import Timeline from "@/components/Product/Timeline";
+import type { BigNumber } from "ethers";
+import useLocalProductStorage from "@/hooks/useLocalProductStorage";
 
 const index = () => {
   const router = useRouter();
   const { id } = router.query;
-  // todo change this to be a timeline and not necessarily card-like (no wrap)
 
   const isHydrationSafe = useHydrationSafeCall();
   const {
@@ -33,23 +36,60 @@ const index = () => {
     enabled: !!id,
   });
 
+  const { storedValue, toggleProduct } = useLocalProductStorage();
+
   const data = useTransformProductDatas(
     rawData as [ProductDataSnakeCase[], BigNumber[], string[]] | null
   );
 
-  useEffect(() => {
-    console.log("New data:", data);
-  }, [data]);
-  useEffect(() => {
-    console.log(isSuccess, data, data?.length);
-  }, [isSuccess, data]);
+  const handleBookmark = (e: any) => {
+    e.preventDefault();
+    toggleProduct({
+      date: new Date().toISOString(),
+      tokenId: parseInt(id?.toString() || ""),
+    });
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "SPECK Hack",
+          text: "Check out the tracing of SPECK!",
+          url: `${window.location.href}/product/${id}`,
+        });
+        console.log("Successfully shared 📫");
+      } catch (error) {
+        console.log("Error sharing:", error);
+      }
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(window.location.href);
+      alert("Copied to clipboard!");
+    }
+  };
 
   return (
     <DefaultPaddingXnY>
       <Head>
-        <title>Product #{id} 🪪</title>
+        <title>Product timeline 🪪</title>
       </Head>
-      <h2>Product #{id}</h2>
+      <h2 className="mb-2 flex justify-between">
+        <div>Product {isHydrationSafe && <span>#{id}</span>}</div>
+        <div className="flex justify-between gap-2 md:gap-4">
+          <button onClick={handleShare}>
+            <ShareIcon className="w-4 md:w-5" />
+          </button>
+          <button onClick={handleBookmark}>
+            <BookmarkIcon
+              className={`w-5 md:w-6 ${
+                storedValue.some((p) => p.tokenId == data?.at(0)?.tokenId)
+                  ? ""
+                  : "text-gray-500"
+              }`}
+            />
+          </button>
+        </div>
+      </h2>
 
       <section>
         {isHydrationSafe ? (
