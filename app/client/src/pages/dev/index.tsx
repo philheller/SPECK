@@ -15,15 +15,19 @@ const index = () => {
       </p>
       <ul className="mt-4">
         <li>
+          <Link className="underline" href="/dev/connect">
+            Connect Wallet 💸
+          </Link>
+        </li>
+        <li>
           <Link className="underline" href="/dev/birth">
             Pig birth ✨🐖
           </Link>
         </li>
         <li>
-          <Link className="text-red-600 underline" href="/dev/change">
+          <Link className="underline" href="/dev/change">
             Change pig properties 🐗
-          </Link>{" "}
-          (coming soon)
+          </Link>
         </li>
         <li>
           <Link className="text-red-600 underline" href="/dev/ownership">

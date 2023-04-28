@@ -2,7 +2,10 @@ import { ProductDataSnakeCase } from "@/interfaces/Product";
 import { useEffect, useState } from "react";
 import { subDays } from "date-fns";
 
-export const useRandomProduct = (productType: string) => {
+export const useRandomProduct = (
+  productType: string,
+  previousProduct: number = 0
+) => {
   const [randomProduct, setRandomProduct] = useState<ProductDataSnakeCase>();
 
   const createRandomProduct = (): ProductDataSnakeCase => {
@@ -21,11 +24,14 @@ export const useRandomProduct = (productType: string) => {
         new Date(),
         Math.floor(Math.random() * 6)
       ).toISOString(),
-      findings: Math.random() > 0.5 ? "true" : "false",
+      findings:
+        Math.random() > 0.5
+          ? "Some kind of finding noted here. This could be some doctor's msg. Maybe sth else..."
+          : "",
       gender: Math.random() > 0.5 ? 1 : 0,
       slaughter_method: Math.floor(Math.random() * 10),
       ph_value: Math.floor(Math.random() * 8) + 2,
-      previous_product: Math.floor(Math.random() * 1000000),
+      previous_product: previousProduct,
       product_type: productType || "Pig",
     };
     return randomProduct;

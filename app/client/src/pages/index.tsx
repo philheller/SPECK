@@ -10,7 +10,7 @@ import {
   ClockIcon,
   PlusCircleIcon,
   ExclamationCircleIcon,
-  XCircleIcon,
+  BookmarkIcon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
 // web3
@@ -45,13 +45,13 @@ export default function Home() {
   }, [storedValue]);
 
   const data = useTransformProductDatas(
-    rawData as [ProductDataSnakeCase[], BigNumber[], string[]]
+    rawData as [ProductDataSnakeCase[], BigNumber[], string[]] | null
   );
 
   return (
     <DefaultPaddingXnY>
       <Head>
-        <title>Trace Speck 🐖</title>
+        <title>Trace Speck 🥓</title>
         <meta
           name="description"
           content="These are the products I have in my list."
@@ -61,7 +61,7 @@ export default function Home() {
         <h2>Overview Products</h2>
         {isHydrationSafe ? (
           isLoading ? (
-            <div className="h-10 w-full">
+            <div className="flex h-10 w-full items-center justify-center">
               <div className="w-5">
                 <Spinner />
               </div>
@@ -78,15 +78,15 @@ export default function Home() {
               <p>{error.name}</p>
               <p>{error.message}</p>
             </div>
-          ) : data && data.length ? (
+          ) : data && data.length && storedValue && storedValue.length ? (
             <section className="grid grid-cols-2 items-stretch gap-4 md:grid-cols-3 xl:grid-cols-4">
               {data.map((product) => (
                 <Link
                   key={product.tokenId}
                   href={`/product/${product.tokenId}`}
-                  className="w-full"
+                  className="w-full self-stretch"
                 >
-                  <Card className=" p-4 shadow-[0.2rem_0.2rem_2rem_rgba(0,0,0,0.15),_0.1rem_0.1rem_0.4rem_rgba(0,0,0,0.2)] dark:bg-gray-700 dark:shadow-slate-900">
+                  <Card className="h-full p-4 shadow-[0.2rem_0.2rem_2rem_rgba(0,0,0,0.15),_0.1rem_0.1rem_0.4rem_rgba(0,0,0,0.2)] dark:bg-gray-700 dark:shadow-slate-900">
                     <h3 className="-mb-1 flex flex-nowrap items-center justify-between text-xl">
                       <span>
                         {product.productType} #{product.tokenId}
@@ -98,7 +98,7 @@ export default function Home() {
                           removeProduct({ tokenId: product.tokenId });
                         }}
                       >
-                        <XCircleIcon />
+                        <BookmarkIcon />
                       </button>
                     </h3>
                     <h4 className="font-normal">
