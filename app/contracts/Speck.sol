@@ -20,6 +20,22 @@ contract Speck is ERC721 {
         _;
     }
 
+    modifier previousProductCheck(Product memory _product_data) {
+        if (_product_data.previous_product != 0) {
+            uint256 previousProductId = _product_data.previous_product;
+            //     Check if previous product exists
+            require(
+                bytes(_products[previousProductId].id).length > 0,
+                "SPECK: Previous product does not exist."
+            );
+            require(
+                ownerOf(_product_data.previous_product) == msg.sender,
+                "SPECK: You are not the owner of the previous product."
+            );
+        }
+        _;
+    }
+
     OrganizationAuthenticator private _organizationAuthenticator;
 
     struct Product {
@@ -48,20 +64,7 @@ contract Speck is ERC721 {
 
     function createNewProduct(
         Product memory _product_data
-    ) public onlyRegistered {
-        if (_product_data.previous_product != 0) {
-            uint256 previousProductId = _product_data.previous_product;
-            //     Check if previous product exists
-            require(
-                bytes(_products[previousProductId].id).length > 0,
-                "SPECK: Previous product does not exist."
-            );
-            require(
-                ownerOf(_product_data.previous_product) == msg.sender,
-                "SPECK: You are not the owner of the previous product."
-            );
-        }
-
+    ) public onlyRegistered previousProductCheck(_product_data) {
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
 
@@ -75,7 +78,7 @@ contract Speck is ERC721 {
     function transferProduct(
         Product memory _product_data,
         address _to
-    ) public onlyRegistered {
+    ) public onlyRegistered previousProductCheck(_product_data) {
         if (_product_data.previous_product != 0) {
             uint256 previousProductId = _product_data.previous_product;
             //     Check if previous product exists

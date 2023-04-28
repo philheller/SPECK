@@ -77,7 +77,6 @@ contract("OrganizationAuthenticator", (accounts) => {
     requestedRegistration = useTransformOrganizationsData(
       requestedRegistration
     );
-    console.log(requestedRegistration);
     expect(requestedRegistration.length).to.be.greaterThan(0);
   });
 
