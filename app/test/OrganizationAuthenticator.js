@@ -98,4 +98,26 @@ contract("OrganizationAuthenticator", (accounts) => {
       await organizationAuthenticatorInstance.authenticate.call(accounts[0]);
     expect(authenticated).to.be.true;
   });
+
+  it("should return the organization data of the an entered address if registered", async () => {
+    let organizationData =
+      await organizationAuthenticatorInstance.getOrganizationDataByAddress.call(
+        accounts[0]
+      );
+
+    organizationData = useTransformOrganizationData(organizationData);
+    expect(organizationData).to.not.be.empty;
+  });
+
+  it("should not return the organization data of the an entered unregistered address", async () => {
+    try {
+      await organizationAuthenticatorInstance.getOrganizationDataByAddress.call(
+        accounts[1]
+      );
+    } catch (error) {
+      expect(error.message).to.include(
+        "ORGANIZATION AUTHENTICATOR: Address does not belong to a registered organization."
+      );
+    }
+  });
 });

@@ -113,6 +113,17 @@ contract OrganizationAuthenticator is Ownable {
         return _registered[_addressToId[msg.sender]];
     }
 
+    function getOrganizationDataByAddress(
+        address _address
+    ) public view returns (Organization memory) {
+        uint256 orgId = _addressToId[_address];
+        require(
+            orgId != 0,
+            "ORGANIZATION AUTHENTICATOR: Address does not belong to a registered organization."
+        );
+        return _organizationData[orgId];
+    }
+
     //TODO: SET TO INTERNAL
     function totalRequestedOrganizationAmount() public view returns (uint256) {
         return _requestAmount.current();
