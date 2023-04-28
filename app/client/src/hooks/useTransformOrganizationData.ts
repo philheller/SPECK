@@ -3,9 +3,9 @@ import type { Organization, OrganizationDataSnakeCase } from "@/interfaces/Organ
 import { useEffect, useState } from "react";
 
 const usetransformOrganizationData = (
-  data: [OrganizationDataSnakeCase]
+  data: OrganizationDataSnakeCase
 ) => {
-  const [transformedData, setTransformedData] = useState<Organization>();
+  const [transformedData, setTransformedData] = useState<Organization | null>(null);
 
   useEffect(() => {
     if (!data) return;
@@ -16,9 +16,9 @@ const usetransformOrganizationData = (
 };
 
 const usetransformOrganizationDatas = (
-  data: [OrganizationDataSnakeCase[]]
+  data: OrganizationDataSnakeCase[]
 ) => {
-  const [transformedData, setTransformedData] = useState<Organization[]>();
+  const [transformedData, setTransformedData] = useState<Organization[] | null>(null);
 
   useEffect(() => {
     console.log("transforming this data: ", data);
@@ -83,11 +83,11 @@ const toOrganization = (
   return transformedOrganization;
 };
 
-const transformOrganization = (data: [OrganizationDataSnakeCase]) =>
-  toOrganization(...data);
+const transformOrganization = (data: OrganizationDataSnakeCase) =>
+  toOrganization(data);
 
 function transformOrganizations(
-  data: [OrganizationDataSnakeCase[]]
+  data: OrganizationDataSnakeCase[]
 ) {
   const result = [];
   const organizationsLength = data.length;
