@@ -12,7 +12,7 @@ contract OrganizationAuthenticator is Ownable {
     Counters.Counter private _registeredAmount;
 
     event Authenticate(string _msg);
-    event Register(string _msg);
+    event RegistrationRequested(address indexed requestAddress);
 
     mapping(uint256 => bool) private _registered;
     mapping(uint256 => Organization) private _organizationData;
@@ -63,6 +63,8 @@ contract OrganizationAuthenticator is Ownable {
         _organizationData[newOrgId] = _data;
         _requestAmount.increment();
         _registrationRequestedArray.push(newOrgId);
+
+        emit RegistrationRequested(msg.sender);
     }
 
     function register(uint256 _orgId) public onlyOwner {
