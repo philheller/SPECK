@@ -1,10 +1,15 @@
 // SPDX-License-Identifier: MIT
+
 pragma solidity >=0.8.3;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+/**
+ * @title OrganizationAuthenticator
+ * @dev This contract is used to authenticate and register organizations.
+ */
 contract OrganizationAuthenticator is Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _orgIds;
@@ -21,6 +26,9 @@ contract OrganizationAuthenticator is Ownable {
 
     uint256[] private _registrationRequestedArray;
 
+    /**
+     * @dev Struct to hold the organization data.
+     */
     struct Organization {
         string id;
         string name;
@@ -39,16 +47,28 @@ contract OrganizationAuthenticator is Ownable {
         bool creation_right;
     }
 
-    // constructor() {}
-
-    function authenticate(address _address) public view returns (bool) {
-        return authenticateById(_addressToId[_address]);
-    }
-
+    /**
+     * @dev Check if the organization with given ID is authenticated.
+     * @param _orgId ID of the organization to check authentication status.
+     * @return A boolean indicating if the organization is authenticated or not.
+     */
     function authenticateById(uint256 _orgId) internal view returns (bool) {
         return _registered[_orgId];
     }
 
+    /**
+     * @dev Check if the organization with given address is authenticated.
+     * @param _address Address of the organization to check authentication status.
+     * @return A boolean indicating if the organization is authenticated or not.
+     */
+    function authenticate(address _address) public view returns (bool) {
+        return authenticateById(_addressToId[_address]);
+    }
+
+    /**
+     * @dev Request registration for a new organization.
+     * @param _data Struct containing organization data to register.
+     */
     function requestRegistration(Organization memory _data) public {
         require(
             _addressToId[msg.sender] == 0,
@@ -67,6 +87,10 @@ contract OrganizationAuthenticator is Ownable {
         emit RegistrationRequested(msg.sender);
     }
 
+    /**
+     * @dev Register an organization.
+     * @param _orgId ID of the organization to register.
+     */
     function register(uint256 _orgId) public onlyOwner {
         require(
             _registrationRequested[_orgId] == true,
@@ -78,6 +102,11 @@ contract OrganizationAuthenticator is Ownable {
         _registrationRequested[_orgId] = false;
         removeRequestIndex(_orgId);
     }
+
+    /**
+     * @dev Get a list of organization requests.
+     * @return An array of organizations
+     **/
 
     function getRequestedRegistrations()
         public
@@ -103,6 +132,10 @@ contract OrganizationAuthenticator is Ownable {
         return organizations;
     }
 
+    /**
+     * @dev Get the organization data from msg.sender
+     * @return A boolean indicating if the organization is authenticated or not.
+     */
     function getMyData() public view returns (Organization memory) {
         require(
             bytes(_organizationData[_addressToId[msg.sender]].id).length > 0,
@@ -111,10 +144,18 @@ contract OrganizationAuthenticator is Ownable {
         return _organizationData[_addressToId[msg.sender]];
     }
 
+    /**
+     * @dev Check if the messenge sender is authenticated.
+     * @return A boolean indicating if the msg.sender is authenticated or not.
+     */
     function amIRegistered() public view returns (bool) {
         return _registered[_addressToId[msg.sender]];
     }
 
+    /**
+     * @dev Get all organization that requested a registration.
+     * @return An array of organizations.
+     */
     function getOrganizationDataByAddress(
         address _address
     ) public view returns (Organization memory) {
@@ -126,25 +167,28 @@ contract OrganizationAuthenticator is Ownable {
         return _organizationData[orgId];
     }
 
-    //TODO: SET TO INTERNAL
     function totalRequestedOrganizationAmount() public view returns (uint256) {
         return _requestAmount.current();
     }
 
-    //TODO: SET TO INTERNAL
     function totalRegisteredOrganizationAmount() public view returns (uint256) {
         return _registeredAmount.current();
     }
 
+    /**
+     * @dev Removes the organization id from the _registrationRequestedArray by the organization index
+     * @param _orgId ID of the organization to register.
+     * @return An array of organizations.
+     */
     function removeRequestIndex(
-        uint256 _orgIndex
+        uint256 _orgId
     ) public returns (uint256[] memory) {
         uint256[] memory tempArray = new uint256[](
             _registrationRequestedArray.length - 1
         );
 
         for (uint256 i = 0; i < _registrationRequestedArray.length; i++) {
-            if (_registrationRequestedArray[i] != _orgIndex) {
+            if (_registrationRequestedArray[i] != _orgId) {
                 tempArray[i] = _registrationRequestedArray[i];
             }
         }
