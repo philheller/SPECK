@@ -34,6 +34,19 @@ const index = () => {
             Change ownership/custody of pig 🤝📃
           </Link>
         </li>
+        <li>
+          <Link className="underline" href="/dev/register">
+            Request registration 📃
+          </Link>
+        </li>
+        <li>
+          <Link
+            className="text-red-500 underline"
+            href="/organization/requests"
+          >
+            Accept registration requests 📃 (coming soon)
+          </Link>
+        </li>
       </ul>
     </DefaultPaddingXnY>
   );
