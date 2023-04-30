@@ -48,18 +48,18 @@ contract OrganizationAuthenticator is Ownable {
     }
 
     /**
-     * @dev Check if the organization with given ID is authenticated.
+     * @dev Check if the organization with given ID is registered.
      * @param _orgId ID of the organization to check authentication status.
-     * @return A boolean indicating if the organization is authenticated or not.
+     * @return A boolean indicating if the organization is registered or not.
      */
     function authenticateById(uint256 _orgId) internal view returns (bool) {
         return _registered[_orgId];
     }
 
     /**
-     * @dev Check if the organization with given address is authenticated.
+     * @dev Check if the organization with given address is registered.
      * @param _address Address of the organization to check authentication status.
-     * @return A boolean indicating if the organization is authenticated or not.
+     * @return A boolean indicating if the organization is registered or not.
      */
     function authenticate(address _address) public view returns (bool) {
         return authenticateById(_addressToId[_address]);
@@ -134,7 +134,7 @@ contract OrganizationAuthenticator is Ownable {
 
     /**
      * @dev Get the organization data from msg.sender
-     * @return A boolean indicating if the organization is authenticated or not.
+     * @return A boolean indicating if the organization is registered or not.
      */
     function getMyData() public view returns (Organization memory) {
         require(
@@ -145,8 +145,8 @@ contract OrganizationAuthenticator is Ownable {
     }
 
     /**
-     * @dev Check if the messenge sender is authenticated.
-     * @return A boolean indicating if the msg.sender is authenticated or not.
+     * @dev Check if the messenge sender is registered.
+     * @return A boolean indicating if the msg.sender is registered or not.
      */
     function amIRegistered() public view returns (bool) {
         return _registered[_addressToId[msg.sender]];

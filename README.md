@@ -31,6 +31,7 @@
     - [Migrate contracts](#migrate-contracts)
     - [Reset Nonce index](#reset-nonce-index)
     - [Reset local storage](#reset-local-storage)
+    - [Error loading docker meta data](#error-loading-docker-meta-data)
 
 # SPECK Hackathon
 
@@ -351,6 +352,7 @@ If ganache is cleared and a fresh chain is started, there are a few things to re
 - [Migrate contracts](#migrate-contracts)
 - [Reset Nonce index](#reset-nonce-index)
 - [Reset local storage](#reset-local-storage)
+- [Error loading docker meta data](#error-loading-docker-meta-data)
 
 ### Migrate contracts
 
@@ -363,3 +365,18 @@ If the volumes are unmounted or the local ganache instance is deleted and a new 
 ### Reset local storage
 
 This specific project uses the browser's `localStorage` to keep track of products. If the ganache instance is restarted and the `localStorage` is not cleared, the products will be out of sync. Wagmi may also use `localStorage` for request hashing. This can be fixed by clearing the `localStorage` in the browser's developer tools.
+
+### Error loading docker meta data
+
+(Encountered on Apple Silicon)
+
+```console
+=> ERROR [speck-hackathon-node-app internal] load metadata for docker.io/library/node:latest
+=> ERROR [speck-hackathon-ganache-cli internal] load metadata for docker.io/trufflesuite/ganache-cli:v6.
+```
+
+Fix:
+
+```console
+~ rm ./.docker/config.json
+```
