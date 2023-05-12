@@ -378,5 +378,5 @@ This specific project uses the browser's `localStorage` to keep track of product
 Fix:
 
 ```console
-~ rm ./.docker/config.json
+~ rm ~/.docker/config.json
 ```
