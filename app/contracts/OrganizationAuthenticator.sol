@@ -12,10 +12,16 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  */
 contract OrganizationAuthenticator is Ownable {
     using Counters for Counters.Counter;
+    // Counter for the next organization id
     Counters.Counter private _orgIds;
+
+    // Counter for the request amount
     Counters.Counter private _requestAmount;
+
+    // Counter for the registration amount
     Counters.Counter private _registeredAmount;
 
+    // Event emitted when registration is requested
     event Authenticate(string _msg);
     event RegistrationRequested(address indexed requestAddress);
 
@@ -24,6 +30,7 @@ contract OrganizationAuthenticator is Ownable {
     mapping(uint256 => bool) private _registrationRequested;
     mapping(address => uint256) private _addressToId;
 
+    // Help data structure to iterate through requested registrations
     uint256[] private _registrationRequestedArray;
 
     /**

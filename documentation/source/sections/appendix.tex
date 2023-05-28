@@ -212,40 +212,22 @@
 \begin{table}[H]
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{lll}
-\textbf{Name} &                   & \textbf{Description}                                                                                           \\ \hline
-\texttt{authenticateById} & \textbf{@dev}     & Check if the organization with the given ID is registered.                                      \\
-                          & \textbf{@params}  & \texttt{\_orgId} : ID of the organization to check authentication status.                                         \\
-                          & \textbf{@returns} & A boolean indicating if the organization is registered or not.                                       \\
-                          &                   &                                                                                                                \\ \hline
-\texttt{authenticate} & \textbf{@dev}     & Check if the organization with the given address is registered.                                                    \\
-                          & \textbf{@params}  & \texttt{\_address}: Address of the organization to check authentication status. \\
-                          & \textbf{@returns} & A boolean indicating if the organization is registered or not.                                                 \\
-                          &                   &                                                                                                                \\ \hline
-\texttt{requestRegistration} & \textbf{@dev}              & Request registration for a new organization.                                                                   \\
-                          & \textbf{@params}           & \texttt{\_data}: Struct containing organization data to register                                                          \\
-                          &                   &                                                                                                                \\ \hline
-\texttt{register} & \textbf{@dev}              & Register an organization.                                                                                      \\
-                          & \textbf{@params}           & \texttt{\_orgId}: ID of the organization to register                                                                     \\
-                          &                   &                                                                                                                \\ \hline
-\texttt{getRequestedRegistrations} & \textbf{@dev}              & Get a list of organization requests.                                                                           \\
-                          & \textbf{@returns}           & An array of organizations                                                                                          \\
-                          &                   &                                                                                                                \\ \hline
-\texttt{getMyData} &  \textbf{@dev}            & Get the organization data from \texttt{msg.sender}                                                           \\
-                          & \textbf{@returns}           & Organization data of the \textit{msg.sender}                                                                     \\
-                          &                   &                                                                                                                \\ \hline
-\texttt{amIRegistered} &   \textbf{@dev}           & Check if the \texttt{msg.sender} is registered                                                             \\
-                          & \textbf{@returns}           & A boolean indicating if the \textit{msg.sender} is registered or not                                                                      \\
-                          &                   &                                                                                                                \\ \hline
-\texttt{getOrganizationDataByAddress} &     \textbf{@dev}         & Get the organization data of a given address                                                                 \\
-                          & \textbf{@params}           & \texttt{\_address}: Address of the organization to retrieve data for                                                           \\
-                          & \textbf{@returns}           & Organization data of the given address                                                                 \\
-                          &                   &                                                                                                                \\ \hline
-\texttt{totalRequestedOrganizationAmount} &       \textbf{@dev}       & Get the total number of organization registration requests                                                                           \\
-                          & \textbf{@returns}           & The total number of organization registration requests                                                                      \\
-                          &                   &                                                                                                                \\ \hline
-\texttt{totalRegisteredOrganizationAmount} &       \textbf{@dev}        & Get the total number of registered organizations                                                                 \\
-                          & \textbf{@returns}           & The total number of registered organizations                                                                      \\
-                          &                   &                                                                                                                \\ \hline
+\textbf{Name} & \textbf{@dev} & \textbf{Description} \\ \hline
+\texttt{createNewProduct} & \textbf{@params} & \texttt{\_product\_data}: The Product struct containing the details of the new product to be created. \\ \hline
+\texttt{transferProduct} & \textbf{@params} & \texttt{\_product\_data}: The Product struct containing the details of the product to be transferred. \\
+ & \textbf{@params} & \textit{\_to}: The address of the new owner of the product. \\ \hline
+\texttt{getProductData} & \textbf{@params} & \texttt{\_tokenId}: The ID of the product to retrieve data for. \\
+ & \textbf{@returns} & A tuple containing the Product struct of the product, its token ID, and its current owner. \\ \hline
+\texttt{getMultipleProductData} & \textbf{@params} & \texttt{\_token\_ids}: An array of product IDs to retrieve data for. \\
+ & \textbf{@returns} & A tuple containing arrays of Product structs, token IDs, and current owners for the specified products. \\ \hline
+\texttt{getProductHistory} & \textbf{@params} & \texttt{\_tokenId}: The ID of the product to retrieve the history for. \\
+ & \textbf{@returns} & A tuple containing arrays of Product structs, token IDs, and current owners for each version of the product in reverse chronological order. \\ \hline
+\texttt{getHistoryDepth} & \textbf{@params} & \texttt{\_tokenId}: The ID of the product to calculate the history depth for. \\
+ & \textbf{@params} & \texttt{\_counter}: A counter variable used to keep track of the depth. \\
+ & \textbf{@returns} & The depth of the product history. \\ \hline
+\texttt{totalProductAmount} & \textbf{@returns} & The total number of products. \\ \hline
+\texttt{getOwnerOf} & \textbf{@params} & \texttt{\_tokenId}: The ID of the product to retrieve the owner for. \\
+ & \textbf{@returns} & The address of the current owner of the product. \\ \hline
 \end{tabular}%
 }
 \end{table}
