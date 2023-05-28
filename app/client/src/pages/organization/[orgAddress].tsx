@@ -79,7 +79,7 @@ const index = () => {
               <div>
                 <div className="my-2 flex-1 md:my-4">
                   <div className="relative">
-                    <Card className="ml-3 bg-gray-300 p-3 dark:bg-gray-700 md:p-5">
+                    <Card className="bg-gray-300 p-3 dark:bg-gray-700 md:p-5">
                       <header>
                         <h3 className="mb-0">
                           <div className="inline-block">
