@@ -27,7 +27,7 @@
       - [Installation](#installation-3)
       - [Configuration](#configuration-2)
       - [Development](#development-3)
-  - [Clear chain](#clear-chain)
+  - [Common errors and fixes](#common-errors-and-fixes)
     - [Migrate contracts](#migrate-contracts)
     - [Reset Nonce index](#reset-nonce-index)
     - [Reset local storage](#reset-local-storage)
@@ -340,7 +340,7 @@ npm install -g truffle
 
 You can now access the frontend at [http://localhost:3000](http://localhost:3000) (see shell output).
 
-## Clear chain
+## Common errors and fixes
 
 > Clearing the chain from time to time may be a good idea.
 >
@@ -378,5 +378,5 @@ This specific project uses the browser's `localStorage` to keep track of product
 Fix:
 
 ```console
-~ rm ./.docker/config.json
+$ rm ~/.docker/config.json
 ```
