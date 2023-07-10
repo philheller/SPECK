@@ -1,7 +1,7 @@
-FROM node:latest
+FROM node:18
 
 # Install truffle and dependencies
-RUN npm install -g truffle@latest
+RUN npm install -g truffle@5.9.0
 
 # install dependencies first for better caching
 WORKDIR /opt/truffle

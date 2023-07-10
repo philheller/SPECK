@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:18
 
 # install dependencies first for better caching
 WORKDIR /opt/node_app/
