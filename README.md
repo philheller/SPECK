@@ -34,8 +34,10 @@
     - [Error loading docker meta data](#error-loading-docker-meta-data)
 
 # SPECK Hackathon
+> [!WARNING]
+>  This repository was migrated from a deprecated and to be removed instance of GitLab to this GitHub repository. The URL of the links are unchanged but reference a no longer available existing repository. These can be ignored and resolved to this domain.
 
-This repository contains the code for the SPECK Hackathon. It is fully dockerized but can also be used to develop locally. The dockerized version is preferrable to avoid issues with versions of tooling, different OS, etc. Local development to be done at user's own discretion.
+This repository contains the code for work on the research project [SPECK](https://cii.aifb.kit.edu/110_1019.php). It is fully dockerized but can also be used to develop locally. The dockerized version is preferrable to avoid issues with versions of tooling, different OS, etc. Local development to be done at user's own discretion.
 
 ## First steps
 
